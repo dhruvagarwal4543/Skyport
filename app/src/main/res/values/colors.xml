@@ -6,4 +6,11 @@
     <color name="text_secondary">#8A8D9F</color>
     <color name="white">#FFFFFF</color>
     <color name="card_bg">#FFFFFF</color>
+
+    <!-- SkyPort Design Colors -->
+    <color name="skyport_bg_top">#FFFFFF</color>
+    <color name="skyport_bg_bottom">#214061</color>
+    <color name="skyport_navy">#02254B</color>
+    <color name="skyport_button_bg">#D1D9E6</color>
+    <color name="skyport_text_secondary">#546E7A</color>
 </resources>
