@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
         TextView tvFooter = findViewById(R.id.tvFooter);
 
         btnSignUp.setOnClickListener(v -> {
-            Toast.makeText(SplashActivity.this, "Sign up feature coming soon!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(SplashActivity.this, SignupActivity.class));
         });
 
         setupClickableFooter(tvFooter);
@@ -52,7 +52,7 @@ public class SplashActivity extends AppCompatActivity {
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View widget) {
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    startActivity(new Intent(SplashActivity.this, AuthActivity.class));
                 }
 
                 @Override

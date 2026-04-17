@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.skyport.app.fragments.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.skyport.app.fragments.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment"
+        tools:layout="@layout/fragment_forgot_password">
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_emailSentFragment"
+            app:destination="@id/emailSentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/emailSentFragment"
+        android:name="com.skyport.app.fragments.EmailSentFragment"
+        android:label="EmailSentFragment"
+        tools:layout="@layout/fragment_email_sent">
+        <action
+            android:id="@+id/action_emailSentFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.skyport.app.fragments.ResetPasswordFragment"
+        android:label="ResetPasswordFragment"
+        tools:layout="@layout/fragment_reset_password">
+        <action
+            android:id="@+id/action_resetPasswordFragment_to_successFragment"
+            app:destination="@id/successFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="com.skyport.app.fragments.SuccessFragment"
+        android:label="SuccessFragment"
+        tools:layout="@layout/fragment_success">
+        <action
+            android:id="@+id/action_successFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+</navigation>

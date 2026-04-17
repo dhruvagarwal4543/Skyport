@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <!-- Name Section -->
+        <TextView
+            android:id="@+id/lblFirstName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="First Name*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etFirstName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="Nikhil"
+            android:inputType="textPersonName"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblFirstName" />
+
+        <View
+            android:id="@+id/lineFirstName"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
+
+        <!-- Middle & Last Name Row -->
+        <TextView
+            android:id="@+id/lblMiddleName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Middle Name"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineFirstName" />
+
+        <EditText
+            android:id="@+id/etMiddleName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="textPersonName"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblMiddleName" />
+
+        <View
+            android:id="@+id/lineMiddleName"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etMiddleName" />
+
+        <TextView
+            android:id="@+id/lblLastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Last Name*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
+            app:layout_constraintTop_toBottomOf="@+id/lineFirstName" />
+
+        <EditText
+            android:id="@+id/etLastName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="Kumar"
+            android:inputType="textPersonName"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
+            app:layout_constraintTop_toBottomOf="@+id/lblLastName" />
+
+        <View
+            android:id="@+id/lineLastName"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
+            app:layout_constraintTop_toBottomOf="@+id/etLastName" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <!-- Date of Birth Section -->
+        <TextView
+            android:id="@+id/lblDOB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Date of Birth*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineMiddleName" />
+
+        <TextView
+            android:id="@+id/etDOB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="27/03/1997"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblDOB" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            app:layout_constraintBottom_toBottomOf="@+id/etDOB"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/lineDOB"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etDOB" />
+
+        <!-- Phone Section -->
+        <TextView
+            android:id="@+id/lblPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Phone Number*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineDOB" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="1234567890"
+            android:inputType="phone"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblPhone" />
+
+        <View
+            android:id="@+id/linePhone"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPhone" />
+
+        <!-- Email Section -->
+        <TextView
+            android:id="@+id/lblEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Email*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linePhone" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="abc@gmail.com"
+            android:inputType="textEmailAddress"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblEmail" />
+
+        <View
+            android:id="@+id/lineEmail"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+
+        <!-- Password Section -->
+        <TextView
+            android:id="@+id/lblPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Password*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineEmail" />
+
+        <ImageView
+             android:layout_width="14dp"
+             android:layout_height="14dp"
+             android:layout_marginStart="4dp"
+             android:src="@android:drawable/ic_dialog_info"
+             app:tint="@color/skyport_navy"
+             app:layout_constraintBottom_toBottomOf="@+id/lblPassword"
+             app:layout_constraintStart_toEndOf="@+id/lblPassword"
+             app:layout_constraintTop_toTopOf="@+id/lblPassword" />
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="**********"
+            android:inputType="textPassword"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblPassword" />
+
+        <ImageView
+            android:id="@+id/ivTogglePassword"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            android:src="@android:drawable/ic_menu_view"
+            app:layout_constraintBottom_toBottomOf="@+id/etPassword"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/linePassword"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+
+        <!-- Confirm Password Section -->
+        <TextView
+            android:id="@+id/lblConfirmPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Confirm Password*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linePassword" />
+
+        <EditText
+            android:id="@+id/etConfirmPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="**********"
+            android:inputType="textPassword"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblConfirmPassword" />
+
+        <View
+            android:id="@+id/lineConfirmPassword"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="*required fields"
+            android:textColor="@color/skyport_red"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineConfirmPassword" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

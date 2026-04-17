@@ -13,4 +13,8 @@
     <color name="skyport_navy">#02254B</color>
     <color name="skyport_button_bg">#D1D9E6</color>
     <color name="skyport_text_secondary">#546E7A</color>
+    <color name="skyport_card_bg">#E1E8F2</color>
+    <color name="skyport_field_line">#D1D9E6</color>
+    <color name="skyport_label_gray">#6C757D</color>
+    <color name="skyport_red">#FF0000</color>
 </resources>

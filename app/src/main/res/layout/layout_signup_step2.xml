@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <!-- Country Section -->
+        <TextView
+            android:id="@+id/lblCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Country*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etCountry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="Indian"
+            android:inputType="text"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblCountry" />
+
+        <View
+            android:id="@+id/lineCountry"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCountry" />
+
+        <!-- Nationality Section -->
+        <TextView
+            android:id="@+id/lblNationality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Nationality*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineCountry" />
+
+        <EditText
+            android:id="@+id/etNationality"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="Indian"
+            android:inputType="text"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblNationality" />
+
+        <View
+            android:id="@+id/lineNationality"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etNationality" />
+
+        <!-- Passport Section -->
+        <TextView
+            android:id="@+id/lblPassport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Passport ID*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineNationality" />
+
+        <EditText
+            android:id="@+id/etPassport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="X10020001"
+            android:inputType="textCapCharacters"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblPassport" />
+
+        <View
+            android:id="@+id/linePassport"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPassport" />
+
+        <!-- Checkboxes -->
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbEmailConsent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Send me information about new services, deals or recommendations by Email."
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:buttonTint="@color/skyport_navy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linePassport" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbTerms"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="I am 18 years old or older and agree to the terms of the Skyport User Agreement and Privacy Policy.*"
+            android:textColor="@color/skyport_navy"
+            android:textSize="12sp"
+            app:buttonTint="@color/skyport_navy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cbEmailConsent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="*required fields"
+            android:textColor="@color/skyport_red"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cbTerms" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
