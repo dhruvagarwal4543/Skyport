@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "914531682252",
+    "project_id": "skyport-ba6a5",
+    "storage_bucket": "skyport-ba6a5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914531682252:android:813b047660dad5e21c3f69",
+        "android_client_info": {
+          "package_name": "com.skyport.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914531682252-gioglap060goaq1vurth3h8ap75jg4r3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmIfAHT99FLqHsSb7CMwVBDob6TU0cgL0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914531682252-gioglap060goaq1vurth3h8ap75jg4r3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,16 +10,46 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
+        <!-- Google Login Section -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGoogleLogin"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/white_rounded_bg"
+            android:drawableStart="@drawable/ic_google"
+            android:paddingStart="48dp"
+            android:paddingEnd="48dp"
+            android:text="Continue with Google"
+            android:textAllCaps="false"
+            android:textColor="@color/skyport_navy"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBarAuth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <!-- Name Section -->
         <TextView
             android:id="@+id/lblFirstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="First Name*"
             android:textColor="@color/skyport_navy"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/btnGoogleLogin" />
 
         <EditText
             android:id="@+id/etFirstName"

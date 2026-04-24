@@ -24,6 +24,18 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        com.google.firebase.auth.FirebaseUser currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String name = currentUser.getDisplayName() != null ? currentUser.getDisplayName() : "Nikhil";
+            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+            intent.putExtra("USER_NAME", name);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_splash);
 
         Button btnSignUp = findViewById(R.id.btnSignUp);

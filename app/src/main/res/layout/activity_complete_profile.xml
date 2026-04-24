@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_splash_gradient">
+
+    <!-- Reusable Header -->
+    <include
+        android:id="@+id/signupHeader"
+        layout="@layout/layout_signup_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Step Container -->
+    <FrameLayout
+        android:id="@+id/stepContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="-16dp"
+        android:background="@drawable/white_rounded_bg"
+        app:layout_constraintBottom_toTopOf="@+id/btnAction"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signupHeader">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="24dp">
+
+                <!-- Name Section -->
+                <TextView
+                    android:id="@+id/lblFirstName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="First Name*"
+                    android:textColor="@color/skyport_navy"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etFirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="Nikhil"
+                    android:inputType="textPersonName"
+                    android:paddingVertical="8dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lblFirstName" />
+
+                <View
+                    android:id="@+id/lineFirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/skyport_field_line"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
+
+                <!-- Middle & Last Name Row -->
+                <TextView
+                    android:id="@+id/lblMiddleName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Middle Name"
+                    android:textColor="@color/skyport_navy"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lineFirstName" />
+
+                <EditText
+                    android:id="@+id/etMiddleName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:inputType="textPersonName"
+                    android:paddingVertical="8dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lblMiddleName" />
+
+                <View
+                    android:id="@+id/lineMiddleName"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/skyport_field_line"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etMiddleName" />
+
+                <TextView
+                    android:id="@+id/lblLastName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Last Name*"
+                    android:textColor="@color/skyport_navy"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
+                    app:layout_constraintTop_toBottomOf="@+id/lineFirstName" />
+
+                <EditText
+                    android:id="@+id/etLastName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="Kumar"
+                    android:inputType="textPersonName"
+                    android:paddingVertical="8dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
+                    app:layout_constraintTop_toBottomOf="@+id/lblLastName" />
+
+                <View
+                    android:id="@+id/lineLastName"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/skyport_field_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
+                    app:layout_constraintTop_toBottomOf="@+id/etLastName" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelineCenter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <!-- Date of Birth Section -->
+                <TextView
+                    android:id="@+id/lblDOB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Date of Birth*"
+                    android:textColor="@color/skyport_navy"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lineMiddleName" />
+
+                <TextView
+                    android:id="@+id/etDOB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="27/03/1997"
+                    android:paddingVertical="8dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lblDOB" />
+
+                <ImageView
+                    android:id="@+id/ivCalendar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@android:drawable/ic_menu_my_calendar"
+                    app:layout_constraintBottom_toBottomOf="@+id/etDOB"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <View
+                    android:id="@+id/lineDOB"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/skyport_field_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etDOB" />
+
+                <!-- Phone Section -->
+                <TextView
+                    android:id="@+id/lblPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Phone Number*"
+                    android:textColor="@color/skyport_navy"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lineDOB" />
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="1234567890"
+                    android:inputType="phone"
+                    android:paddingVertical="8dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lblPhone" />
+
+                <View
+                    android:id="@+id/linePhone"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/skyport_field_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etPhone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="*required fields"
+                    android:textColor="@color/skyport_red"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linePhone" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+    </FrameLayout>
+
+    <!-- Action Button -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAction"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_margin="24dp"
+        android:background="@drawable/bg_button_signup"
+        android:text="Continue"
+        android:textAllCaps="false"
+        android:textColor="@color/skyport_navy"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,6 +42,7 @@ public class SignupActivity extends AppCompatActivity {
         initViews();
         setupListeners();
         observeViewModel();
+        setupOnBackPressedCallback();
     }
 
     private void initViews() {
@@ -79,6 +80,72 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Button btnGoogleLogin = layoutStep1.findViewById(R.id.btnGoogleLogin);
+        android.widget.ProgressBar progressBarAuth = layoutStep1.findViewById(R.id.progressBarAuth);
+        
+        if (btnGoogleLogin != null) {
+            com.google.android.gms.auth.api.signin.GoogleSignInOptions gso = new com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder(com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            com.google.android.gms.auth.api.signin.GoogleSignInClient mGoogleSignInClient = com.google.android.gms.auth.api.signin.GoogleSignIn.getClient(this, gso);
+
+            androidx.activity.result.ActivityResultLauncher<Intent> googleSignInLauncher = registerForActivityResult(
+                    new androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == android.app.Activity.RESULT_OK) {
+                            try {
+                                com.google.android.gms.tasks.Task<com.google.android.gms.auth.api.signin.GoogleSignInAccount> task = 
+                                    com.google.android.gms.auth.api.signin.GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                                com.google.android.gms.auth.api.signin.GoogleSignInAccount account = task.getResult(com.google.android.gms.common.api.ApiException.class);
+                                
+                                com.google.firebase.auth.AuthCredential credential = com.google.firebase.auth.GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                                com.google.firebase.auth.FirebaseAuth.getInstance().signInWithCredential(credential)
+                                    .addOnCompleteListener(this, authTask -> {
+                                        if (authTask.isSuccessful()) {
+                                            com.google.firebase.auth.FirebaseUser user = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
+                                            if (user != null) {
+                                                String name = user.getDisplayName() != null ? user.getDisplayName() : "Nikhil";
+                                                String email = user.getEmail();
+                                                String uid = user.getUid();
+                                                
+                                                java.util.Map<String, Object> userMap = new java.util.HashMap<>();
+                                                userMap.put("name", name);
+                                                userMap.put("email", email);
+                                                userMap.put("uid", uid);
+                                                
+                                                com.google.firebase.firestore.FirebaseFirestore.getInstance().collection("users").document(uid)
+                                                    .set(userMap)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        if (progressBarAuth != null) progressBarAuth.setVisibility(View.GONE);
+                                                        Intent intent = new Intent(SignupActivity.this, CompleteProfileActivity.class);
+                                                        intent.putExtra("PREFILL_NAME", name);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    });
+                                            }
+                                        } else {
+                                            if (progressBarAuth != null) progressBarAuth.setVisibility(View.GONE);
+                                            Toast.makeText(SignupActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                            } catch (com.google.android.gms.common.api.ApiException e) {
+                                if (progressBarAuth != null) progressBarAuth.setVisibility(View.GONE);
+                                Toast.makeText(SignupActivity.this, "Google sign in failed", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            if (progressBarAuth != null) progressBarAuth.setVisibility(View.GONE);
+                        }
+                    }
+            );
+
+            btnGoogleLogin.setOnClickListener(v -> {
+                if (progressBarAuth != null) progressBarAuth.setVisibility(View.VISIBLE);
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                googleSignInLauncher.launch(signInIntent);
+            });
+        }
     }
 
     private boolean validateStep1() {
@@ -153,9 +220,10 @@ public class SignupActivity extends AppCompatActivity {
     private void observeViewModel() {
         viewModel.getSignupSuccess().observe(this, success -> {
             if (success) {
-                new SessionManager(this).saveSession(etFirstName.getText().toString());
+                // new SessionManager(this).saveSession(etFirstName.getText().toString());
                 Toast.makeText(this, "Account created successfully!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, HomeActivity.class);
+                intent.putExtra("USER_NAME", etFirstName.getText().toString());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -171,13 +239,19 @@ public class SignupActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (currentStep == 2) {
-            showStep1();
-        } else {
-            super.onBackPressed();
-        }
+    private void setupOnBackPressedCallback() {
+        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (currentStep == 2) {
+                    showStep1();
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                    setEnabled(true);
+                }
+            }
+        });
     }
 
     private void showStep1() {
