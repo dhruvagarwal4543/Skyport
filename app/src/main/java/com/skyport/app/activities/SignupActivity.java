@@ -12,7 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.lifecycle.ViewModelProvider;
+import com.skyport.app.viewmodels.AuthViewModel;
+import com.skyport.app.models.SessionManager;
 import com.skyport.app.R;
 
 public class SignupActivity extends AppCompatActivity {
@@ -21,6 +23,7 @@ public class SignupActivity extends AppCompatActivity {
     private Button btnAction;
     private TextView tvSignupSubtitle;
     private ImageView ivStep1, ivStep2;
+    private AuthViewModel viewModel;
     private int currentStep = 1;
 
     // Step 1 Fields
@@ -35,8 +38,10 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         initViews();
         setupListeners();
+        observeViewModel();
     }
 
     private void initViews() {
@@ -131,9 +136,35 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void performSignup() {
-        Toast.makeText(this, "Account created successfully!", Toast.LENGTH_LONG).show();
-        startActivity(new Intent(this, HomeActivity.class));
-        finish();
+        // Sync fields with ViewModel
+        viewModel.getFirstName().setValue(etFirstName.getText().toString());
+        viewModel.getLastName().setValue(etLastName.getText().toString());
+        viewModel.getEmail().setValue(etEmail.getText().toString());
+        viewModel.getPhone().setValue(etPhone.getText().toString());
+        viewModel.getPassword().setValue(etPassword.getText().toString());
+        viewModel.getConfirmPassword().setValue(etConfirmPassword.getText().toString());
+        viewModel.getCountry().setValue(etCountry.getText().toString());
+        viewModel.getNationality().setValue(etNationality.getText().toString());
+        viewModel.getPassport().setValue(etPassport.getText().toString());
+
+        viewModel.signup();
+    }
+
+    private void observeViewModel() {
+        viewModel.getSignupSuccess().observe(this, success -> {
+            if (success) {
+                new SessionManager(this).saveSession(etFirstName.getText().toString());
+                Toast.makeText(this, "Account created successfully!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        viewModel.getErrorMessage().observe(this, error -> {
+            if (error != null) showError(error);
+        });
     }
 
     private void showError(String message) {

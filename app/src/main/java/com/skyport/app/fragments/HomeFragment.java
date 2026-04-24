@@ -18,28 +18,19 @@ import com.skyport.app.models.Flight;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+import android.widget.TextView;
+import com.skyport.app.models.SessionManager;
 
-    private RecyclerView rvFlights;
-    private FlightAdapter flightAdapter;
-    private List<Flight> flightList;
+public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         
-        rvFlights = view.findViewById(R.id.rvFlights);
-        rvFlights.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        flightList = new ArrayList<>();
-        flightList.add(new Flight("Emirates", "BOM -> DXB", "10:00 AM"));
-        flightList.add(new Flight("Qatar Airways", "DEL -> DOH", "14:30 PM"));
-        flightList.add(new Flight("Air India", "BLR -> SFO", "23:00 PM"));
-        flightList.add(new Flight("Singapore Airlines", "MAA -> SIN", "02:15 AM"));
-
-        flightAdapter = new FlightAdapter(flightList);
-        rvFlights.setAdapter(flightAdapter);
+        SessionManager sessionManager = new SessionManager(requireContext());
+        TextView tvGreeting = view.findViewById(R.id.tvGreeting);
+        tvGreeting.setText("Good morning, " + sessionManager.getUserName());
 
         return view;
     }

@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/nav_location"
+        android:icon="@drawable/ic_nav_location"
+        android:title="" />
+    <item
+        android:id="@+id/nav_shop"
+        android:icon="@drawable/ic_nav_shop"
+        android:title="" />
+    <item
         android:id="@+id/nav_home"
-        android:icon="@android:drawable/ic_menu_mapmode"
-        android:title="Home" />
+        android:icon="@drawable/ic_nav_home"
+        android:title="" />
     <item
-        android:id="@+id/nav_search"
-        android:icon="@android:drawable/ic_menu_search"
-        android:title="Search" />
+        android:id="@+id/nav_suitcase"
+        android:icon="@drawable/ic_nav_suitcase"
+        android:title="" />
     <item
-        android:id="@+id/nav_services"
-        android:icon="@android:drawable/ic_menu_manage"
-        android:title="Services" />
-    <item
-        android:id="@+id/nav_profile"
-        android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="Profile" />
+        android:id="@+id/nav_doc"
+        android:icon="@drawable/ic_nav_doc"
+        android:title="" />
 </menu>

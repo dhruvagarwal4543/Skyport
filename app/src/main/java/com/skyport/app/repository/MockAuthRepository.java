@@ -26,4 +26,12 @@ public class MockAuthRepository implements AuthRepository {
         result.setValue(true);
         return result;
     }
+
+    @Override
+    public LiveData<Boolean> registerUser(com.skyport.app.models.User userData) {
+        MutableLiveData<Boolean> result = new MutableLiveData<>();
+        // Mock success
+        result.setValue(true);
+        return result;
+    }
 }

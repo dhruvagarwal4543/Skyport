@@ -82,8 +82,10 @@ public class LoginFragment extends Fragment {
         // Observers
         viewModel.getLoginSuccess().observe(getViewLifecycleOwner(), success -> {
             if (success) {
-                startActivity(new Intent(getActivity(), HomeActivity.class));
-                requireActivity().finish();
+                new com.skyport.app.models.SessionManager(requireContext()).saveSession("Nikhil");
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
 

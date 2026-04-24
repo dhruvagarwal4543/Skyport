@@ -12,14 +12,20 @@ public class AuthViewModel extends ViewModel {
 
     private final AuthRepository authRepository;
 
-    // States
     private final MutableLiveData<String> email = new MutableLiveData<>("");
     private final MutableLiveData<String> password = new MutableLiveData<>("");
     private final MutableLiveData<String> confirmPassword = new MutableLiveData<>("");
+    private final MutableLiveData<String> firstName = new MutableLiveData<>("");
+    private final MutableLiveData<String> lastName = new MutableLiveData<>("");
+    private final MutableLiveData<String> phone = new MutableLiveData<>("");
+    private final MutableLiveData<String> country = new MutableLiveData<>("");
+    private final MutableLiveData<String> nationality = new MutableLiveData<>("");
+    private final MutableLiveData<String> passport = new MutableLiveData<>("");
 
     // LiveData for UI feedback
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loginSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> signupSuccess = new MutableLiveData<>();
     private final MutableLiveData<Boolean> emailSentSuccess = new MutableLiveData<>();
     private final MutableLiveData<Boolean> resetSuccess = new MutableLiveData<>();
 
@@ -31,8 +37,16 @@ public class AuthViewModel extends ViewModel {
     public MutableLiveData<String> getEmail() { return email; }
     public MutableLiveData<String> getPassword() { return password; }
     public MutableLiveData<String> getConfirmPassword() { return confirmPassword; }
+    public MutableLiveData<String> getFirstName() { return firstName; }
+    public MutableLiveData<String> getLastName() { return lastName; }
+    public MutableLiveData<String> getPhone() { return phone; }
+    public MutableLiveData<String> getCountry() { return country; }
+    public MutableLiveData<String> getNationality() { return nationality; }
+    public MutableLiveData<String> getPassport() { return passport; }
+
     public LiveData<String> getErrorMessage() { return errorMessage; }
     public LiveData<Boolean> getLoginSuccess() { return loginSuccess; }
+    public LiveData<Boolean> getSignupSuccess() { return signupSuccess; }
     public LiveData<Boolean> getEmailSentSuccess() { return emailSentSuccess; }
     public LiveData<Boolean> getResetSuccess() { return resetSuccess; }
 
@@ -40,6 +54,20 @@ public class AuthViewModel extends ViewModel {
         if (validateLogin()) {
             authRepository.login(email.getValue(), password.getValue()).observeForever(success -> {
                 if (success) loginSuccess.setValue(true);
+            });
+        }
+    }
+
+    public void signup() {
+        if (validateSignup()) {
+            com.skyport.app.models.User user = new com.skyport.app.models.User(
+                    firstName.getValue(), lastName.getValue(), email.getValue(), phone.getValue());
+            user.setCountry(country.getValue());
+            user.setNationality(nationality.getValue());
+            user.setPassport(passport.getValue());
+
+            authRepository.registerUser(user).observeForever(success -> {
+                if (success) signupSuccess.setValue(true);
             });
         }
     }
@@ -67,6 +95,30 @@ public class AuthViewModel extends ViewModel {
         }
         if (TextUtils.isEmpty(password.getValue())) {
             errorMessage.setValue("Password cannot be empty");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateSignup() {
+        if (TextUtils.isEmpty(firstName.getValue())) {
+            errorMessage.setValue("First name is required");
+            return false;
+        }
+        if (TextUtils.isEmpty(lastName.getValue())) {
+            errorMessage.setValue("Last name is required");
+            return false;
+        }
+        if (!isEmailValid()) {
+            errorMessage.setValue("Please enter a valid email address");
+            return false;
+        }
+        if (TextUtils.isEmpty(password.getValue()) || password.getValue().length() < 6) {
+            errorMessage.setValue("Password must be at least 6 characters");
+            return false;
+        }
+        if (!password.getValue().equals(confirmPassword.getValue())) {
+            errorMessage.setValue("Passwords do not match");
             return false;
         }
         return true;

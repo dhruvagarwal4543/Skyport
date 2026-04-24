@@ -30,12 +30,9 @@ public class HomeActivity extends AppCompatActivity {
                 int itemId = item.getItemId();
                 if (itemId == R.id.nav_home) {
                     selectedFragment = new HomeFragment();
-                } else if (itemId == R.id.nav_search) {
-                    selectedFragment = new SearchFragment();
-                } else if (itemId == R.id.nav_services) {
-                    selectedFragment = new ServicesFragment();
-                } else if (itemId == R.id.nav_profile) {
-                    selectedFragment = new ProfileFragment();
+                } else {
+                    // Placeholder for other tabs
+                    selectedFragment = new HomeFragment(); 
                 }
 
                 if (selectedFragment != null) {
