@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "914531682252-1shqj6n0g35q2sjebtohhkjjcbjhm0dp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skyport.app",
+            "certificate_hash": "cd80ebeaec56067ba4c356ead2daefc3e664dbe8"
+          }
+        },
+        {
           "client_id": "914531682252-gioglap060goaq1vurth3h8ap75jg4r3.apps.googleusercontent.com",
           "client_type": 3
         }
