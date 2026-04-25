@@ -43,8 +43,6 @@ public class MyAccountActivity extends AppCompatActivity {
         setupRow(R.id.rowPaymentMethods, R.drawable.ic_nav_suitcase, "Payment Methods",          null);
 
         // ── Preferences ───────────────────────────────────────────────────
-        setupRow(R.id.rowLanguage, R.drawable.ic_nav_location, "Language", () ->
-                startActivity(new Intent(this, LanguageActivity.class)));
         setupRow(R.id.rowCurrency, R.drawable.ic_nav_shop,     "Currency", null);
         setupRow(R.id.rowSettings, R.drawable.ic_notification, "Settings",  null);
 

@@ -119,79 +119,110 @@ public class FlightListActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         rvFlights.setVisibility(View.GONE);
 
-        db.collection("flights")
-                .whereEqualTo("source", source)
-                .whereEqualTo("destination", destination)
+        android.util.Log.d("FIREBASE_DEBUG", "Searching route: " + source + " → " + destination);
+
+        // Step 1: Find the matching route document
+        db.collection("routes")
+                .whereEqualTo("from", source)
+                .whereEqualTo("to", destination)
                 .get()
-                .addOnSuccessListener(snapshots -> {
-                    allFlights.clear();
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-
-                    for (QueryDocumentSnapshot doc : snapshots) {
-
-                        // departure_time
-                        String depTime = "";
-                        Object depRaw  = doc.get("departure_time");
-                        if (depRaw instanceof Timestamp)
-                            depTime = sdf.format(((Timestamp) depRaw).toDate());
-                        else if (depRaw instanceof String)
-                            depTime = (String) depRaw;
-
-                        // arrival_time
-                        String arrTime = "";
-                        Object arrRaw  = doc.get("arrival_time");
-                        if (arrRaw instanceof Timestamp)
-                            arrTime = sdf.format(((Timestamp) arrRaw).toDate());
-                        else if (arrRaw instanceof String)
-                            arrTime = (String) arrRaw;
-
-                        // duration → "Xh Ym"
-                        String duration = "";
-                        Object durRaw   = doc.get("duration");
-                        if (durRaw instanceof Long) {
-                            long m = (Long) durRaw;
-                            duration = (m / 60) + "h " + (m % 60) + "m";
-                        } else if (durRaw instanceof Double) {
-                            long m = ((Double) durRaw).longValue();
-                            duration = (m / 60) + "h " + (m % 60) + "m";
-                        } else if (durRaw instanceof String) {
-                            duration = (String) durRaw;
-                        }
-
-                        // price
-                        String price = "";
-                        Object priceRaw = doc.get("price");
-                        if (priceRaw instanceof Long)
-                            price = String.valueOf((Long) priceRaw);
-                        else if (priceRaw instanceof Double)
-                            price = String.valueOf(((Double) priceRaw).longValue());
-                        else if (priceRaw instanceof String)
-                            price = (String) priceRaw;
-
-                        allFlights.add(new Flight(
-                                doc.getString("airline"),
-                                doc.getString("source"),
-                                doc.getString("destination"),
-                                depTime, arrTime, duration, price,
-                                doc.getString("flight_number")
-                        ));
+                .addOnSuccessListener(routeSnapshots -> {
+                    if (routeSnapshots.isEmpty()) {
+                        android.util.Log.d("FIREBASE_DEBUG", "No route document found for " + source + " → " + destination);
+                        progressBar.setVisibility(View.GONE);
+                        rvFlights.setVisibility(View.VISIBLE);
+                        Toast.makeText(this, "No flights available for this route.", Toast.LENGTH_LONG).show();
+                        return;
                     }
 
-                    progressBar.setVisibility(View.GONE);
-                    rvFlights.setVisibility(View.VISIBLE);
+                    String routeId = routeSnapshots.getDocuments().get(0).getId();
+                    android.util.Log.d("FIREBASE_DEBUG", "Route found: " + routeId);
 
-                    updateTabLabels();
-                    applyFilter(activeFilter);
+                    // Step 2: Fetch flights from the subcollection
+                    db.collection("routes")
+                            .document(routeId)
+                            .collection("flights")
+                            .get()
+                            .addOnSuccessListener(flightSnapshots -> {
+                                android.util.Log.d("FIREBASE_DEBUG", "Flights count: " + flightSnapshots.size());
 
-                    if (allFlights.isEmpty())
-                        Toast.makeText(this, "No flights found for this route.", Toast.LENGTH_LONG).show();
+                                allFlights.clear();
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+                                for (QueryDocumentSnapshot doc : flightSnapshots) {
+
+                                    // departure_time (Timestamp or String)
+                                    String depTime = "";
+                                    Object depRaw  = doc.get("departure_time");
+                                    if (depRaw instanceof Timestamp)
+                                        depTime = sdf.format(((Timestamp) depRaw).toDate());
+                                    else if (depRaw instanceof String)
+                                        depTime = (String) depRaw;
+
+                                    // arrival_time (Timestamp or String)
+                                    String arrTime = "";
+                                    Object arrRaw  = doc.get("arrival_time");
+                                    if (arrRaw instanceof Timestamp)
+                                        arrTime = sdf.format(((Timestamp) arrRaw).toDate());
+                                    else if (arrRaw instanceof String)
+                                        arrTime = (String) arrRaw;
+
+                                    // duration → "Xh Ym"
+                                    String duration = "";
+                                    Object durRaw = doc.get("duration");
+                                    if (durRaw instanceof Long) {
+                                        long m = (Long) durRaw;
+                                        duration = (m / 60) + "h " + (m % 60) + "m";
+                                    } else if (durRaw instanceof Double) {
+                                        long m = ((Double) durRaw).longValue();
+                                        duration = (m / 60) + "h " + (m % 60) + "m";
+                                    } else if (durRaw instanceof String) {
+                                        duration = (String) durRaw;
+                                    }
+
+                                    // price (Long, Double, or String)
+                                    String price = "";
+                                    Object priceRaw = doc.get("price");
+                                    if (priceRaw instanceof Long)
+                                        price = String.valueOf((Long) priceRaw);
+                                    else if (priceRaw instanceof Double)
+                                        price = String.valueOf(((Double) priceRaw).longValue());
+                                    else if (priceRaw instanceof String)
+                                        price = (String) priceRaw;
+
+                                    allFlights.add(new Flight(
+                                            doc.getString("airline"),
+                                            source,
+                                            destination,
+                                            depTime, arrTime, duration, price,
+                                            doc.getString("flight_number")
+                                    ));
+                                }
+
+                                progressBar.setVisibility(View.GONE);
+                                rvFlights.setVisibility(View.VISIBLE);
+                                updateTabLabels();
+                                applyFilter(activeFilter);
+
+                                if (allFlights.isEmpty()) {
+                                    Toast.makeText(this, "No flights available for this route.", Toast.LENGTH_LONG).show();
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                android.util.Log.e("FIREBASE_DEBUG", "Error fetching flights subcollection: " + e.getMessage());
+                                progressBar.setVisibility(View.GONE);
+                                rvFlights.setVisibility(View.VISIBLE);
+                                Toast.makeText(this, "Error loading flights: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
                 })
                 .addOnFailureListener(e -> {
+                    android.util.Log.e("FIREBASE_DEBUG", "Error fetching route: " + e.getMessage());
                     progressBar.setVisibility(View.GONE);
                     rvFlights.setVisibility(View.VISIBLE);
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error finding route: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
 
     // ─────────────────────────────────────────────────────────────────────────
     // Dynamic tab labels

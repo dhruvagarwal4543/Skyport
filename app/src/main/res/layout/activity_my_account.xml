@@ -131,9 +131,6 @@
                 android:orientation="vertical">
 
                 <include layout="@layout/item_profile_row"
-                    android:id="@+id/rowLanguage" />
-                <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
-                <include layout="@layout/item_profile_row"
                     android:id="@+id/rowCurrency" />
                 <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
                 <include layout="@layout/item_profile_row"
