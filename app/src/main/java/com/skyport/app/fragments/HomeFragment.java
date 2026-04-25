@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -19,6 +20,8 @@ import androidx.fragment.app.Fragment;
 
 import com.skyport.app.R;
 import com.skyport.app.activities.AirportSearchActivity;
+import com.skyport.app.activities.FlightListActivity;
+import com.skyport.app.activities.MyAccountActivity;
 import com.skyport.app.models.SessionManager;
 
 import java.util.Calendar;
@@ -67,6 +70,11 @@ public class HomeFragment extends Fragment {
         TextView tvGreeting = view.findViewById(R.id.tvGreeting);
         tvGreeting.setText("Good morning, " + displayName);
 
+        // Tapping avatar/greeting opens My Account
+        com.google.android.material.imageview.ShapeableImageView ivAvatar = view.findViewById(R.id.ivAvatar);
+        ivAvatar.setOnClickListener(v -> startActivity(new Intent(getActivity(), MyAccountActivity.class)));
+        tvGreeting.setOnClickListener(v -> startActivity(new Intent(getActivity(), MyAccountActivity.class)));
+
         // Bind views
         tvFromCity = view.findViewById(R.id.tvFromCity);
         tvToCity = view.findViewById(R.id.tvToCity);
@@ -82,12 +90,16 @@ public class HomeFragment extends Fragment {
 
         llFrom.setOnClickListener(v -> {
             isSelectingFrom = true;
-            airportSearchLauncher.launch(new Intent(getActivity(), AirportSearchActivity.class));
+            Intent intent = new Intent(getActivity(), AirportSearchActivity.class);
+            intent.putExtra("HINT_TYPE", "From");
+            airportSearchLauncher.launch(intent);
         });
 
         llTo.setOnClickListener(v -> {
             isSelectingFrom = false;
-            airportSearchLauncher.launch(new Intent(getActivity(), AirportSearchActivity.class));
+            Intent intent = new Intent(getActivity(), AirportSearchActivity.class);
+            intent.putExtra("HINT_TYPE", "To");
+            airportSearchLauncher.launch(intent);
         });
 
         llDepartureDate.setOnClickListener(v -> showDatePicker(tvDepartureDate));
@@ -108,6 +120,32 @@ public class HomeFragment extends Fragment {
                 travellerCount++;
                 tvTravellers.setText(travellerCount + (travellerCount == 1 ? " Adult" : " Adults"));
             }
+        });
+
+        Button btnFindFlights = view.findViewById(R.id.btnFindFlights);
+        btnFindFlights.setOnClickListener(v -> {
+            String fromText = tvFromCity.getText().toString();
+            String toText = tvToCity.getText().toString();
+            String dateText = tvDepartureDate.getText().toString();
+            String travellersText = tvTravellers.getText().toString();
+
+            String fromIata = fromText;
+            String toIata = toText;
+            if (fromText.contains("(") && fromText.contains(")")) {
+                fromIata = fromText.substring(fromText.indexOf("(") + 1, fromText.indexOf(")"));
+            }
+            if (toText.contains("(") && toText.contains(")")) {
+                toIata = toText.substring(toText.indexOf("(") + 1, toText.indexOf(")"));
+            }
+
+            Intent intent = new Intent(getActivity(), FlightListActivity.class);
+            intent.putExtra("FROM_NAME", fromText);
+            intent.putExtra("FROM_IATA", fromIata);
+            intent.putExtra("TO_NAME", toText);
+            intent.putExtra("TO_IATA", toIata);
+            intent.putExtra("DATE", dateText);
+            intent.putExtra("TRAVELLERS", travellersText);
+            startActivity(intent);
         });
 
         return view;

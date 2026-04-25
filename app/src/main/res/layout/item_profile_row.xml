@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="14dp"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/ivRowIcon"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:src="@drawable/ic_nav_home"
+        android:tint="@color/skyport_navy" />
+
+    <TextView
+        android:id="@+id/tvRowLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:text="Row Item"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@android:drawable/ic_media_next"
+        android:tint="@color/skyport_label_gray" />
+
+</LinearLayout>

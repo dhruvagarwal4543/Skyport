@@ -19,16 +19,15 @@
             android:padding="12dp"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <ImageView
                 android:id="@+id/ivAvatar"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:padding="2dp"
-                android:src="@drawable/ic_avatar"
+                android:src="@drawable/ic_user_default"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/CircleImage" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvGreeting"

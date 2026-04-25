@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+    <!-- Air India: deep red rounded square -->
+    <path
+        android:fillColor="#B01116"
+        android:pathData="M6,0h28a6,6 0 0 1 6,6v28a6,6 0 0 1 -6,6h-28a6,6 0 0 1 -6,-6v-28a6,6 0 0 1 6,-6z" />
+    <!-- Gold flying swan / konark wheel simplified -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M20,10 C14,10 10,14 10,20 C10,26 14,30 20,30 C26,30 30,26 30,20 C30,14 26,10 20,10Z M20,26 C16.7,26 14,23.3 14,20 C14,16.7 16.7,14 20,14 C23.3,14 26,16.7 26,20 C26,23.3 23.3,26 20,26Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M19,17h2v6h-2z M17,19h6v2h-6z" />
+</vector>

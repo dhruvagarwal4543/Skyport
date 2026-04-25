@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_light">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="?attr/homeAsUpIndicator"
+            android:tint="@color/skyport_navy" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginEnd="40dp"
+            android:text="Language"
+            android:textColor="@color/skyport_navy"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="serif" />
+    </LinearLayout>
+
+    <!-- Language list -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white">
+
+            <!-- English -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:gravity="center_vertical" android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:background="?attr/selectableItemBackground">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="English" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <RadioButton android:id="@+id/rbEnglish" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:buttonTint="@color/skyport_navy" android:checked="true" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
+
+            <!-- Bahasa Indonesia -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:gravity="center_vertical" android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:background="?attr/selectableItemBackground">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Bahasa Indonesia" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <RadioButton android:id="@+id/rbBahasa" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:buttonTint="@color/skyport_navy" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
+
+            <!-- Français -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:gravity="center_vertical" android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:background="?attr/selectableItemBackground">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Français" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <RadioButton android:id="@+id/rbFrench" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:buttonTint="@color/skyport_navy" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
+
+            <!-- Español -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:gravity="center_vertical" android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:background="?attr/selectableItemBackground">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Español" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <RadioButton android:id="@+id/rbSpanish" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:buttonTint="@color/skyport_navy" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
+
+            <!-- Deutsch -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:gravity="center_vertical" android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:background="?attr/selectableItemBackground">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Deutsch" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <RadioButton android:id="@+id/rbGerman" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:buttonTint="@color/skyport_navy" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
+
+            <!-- Português -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:gravity="center_vertical" android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:background="?attr/selectableItemBackground">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Português" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <RadioButton android:id="@+id/rbPortuguese" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:buttonTint="@color/skyport_navy" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
+
+            <!-- Italiano -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:gravity="center_vertical" android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:background="?attr/selectableItemBackground">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Italiano" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <RadioButton android:id="@+id/rbItalian" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:buttonTint="@color/skyport_navy" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
+
+            <!-- Русский -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:gravity="center_vertical" android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:background="?attr/selectableItemBackground">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Русский" android:textColor="@color/text_primary" android:textSize="15sp" />
+                <RadioButton android:id="@+id/rbRussian" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:buttonTint="@color/skyport_navy" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Change Button -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChangeLanguage"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_button_signup"
+        android:text="Change"
+        android:textAllCaps="false"
+        android:textColor="@color/skyport_navy"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="serif" />
+
+</LinearLayout>

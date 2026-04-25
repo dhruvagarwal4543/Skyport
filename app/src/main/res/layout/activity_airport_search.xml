@@ -2,31 +2,121 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F3F5F7">
+    android:background="@color/background_light"
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/etSearchAirport"
+    <!-- Top Bar with Search Field -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search Airport (e.g. Delhi)"
-        android:inputType="text"
-        android:padding="16dp"
-        android:background="#FFFFFF" />
-        
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_search_input"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="4dp"
+            android:paddingEnd="16dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="?attr/homeAsUpIndicator"
+                android:tint="@color/skyport_text_secondary" />
+
+            <EditText
+                android:id="@+id/etSearchAirport"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:background="@null"
+                android:fontFamily="serif"
+                android:hint="From"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColor="@color/skyport_navy"
+                android:textColorHint="@color/skyport_label_gray"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="8dp"
+        android:visibility="gone" />
 
-    <ListView
-        android:id="@+id/lvAirports"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <!-- Recent Searches Section -->
+            <LinearLayout
+                android:id="@+id/sectionRecent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="RECENT SEARCHES"
+                    android:textColor="@color/skyport_text_secondary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/llRecentSearches"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+            <!-- Popular Cities Section -->
+            <LinearLayout
+                android:id="@+id/sectionPopular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvListHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="POPULAR CITIES"
+                    android:textColor="@color/skyport_text_secondary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/llPopularCities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

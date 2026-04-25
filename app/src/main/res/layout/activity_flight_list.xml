@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_light">
+
+    <!-- Header Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="?attr/homeAsUpIndicator"
+            android:tint="@color/skyport_navy" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvRouteTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Delhi to Patna"
+                android:textColor="@color/skyport_navy"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="serif" />
+
+            <TextView
+                android:id="@+id/tvRouteDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16 May | 1 Adult | Economy"
+                android:textColor="@color/skyport_label_gray"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnEdit"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_edit"
+            android:tint="@color/primary" />
+
+        <ImageButton
+            android:id="@+id/btnNotification"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_flight_tab_active"
+            android:src="@drawable/ic_notification"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="@color/primary" />
+    </LinearLayout>
+
+    <!-- Filter Tabs Section -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:background="@color/white"
+        android:paddingTop="8dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Cheapest Tab -->
+            <LinearLayout
+                android:id="@+id/tabCheapest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="100dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp"
+                android:background="@drawable/bg_flight_tab_active">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cheapest"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvTabCheapPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="—"
+                    android:textColor="@color/primary"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Non-Stop Tab -->
+            <LinearLayout
+                android:id="@+id/tabNonStop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="100dp"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp"
+                android:background="@drawable/bg_flight_tab_inactive">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Non Stop"
+                    android:textColor="@color/skyport_navy"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvTabNonStopInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="—"
+                    android:textColor="@color/skyport_label_gray"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Morning Filter Chip -->
+            <LinearLayout
+                android:id="@+id/tabMorning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="90dp"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp"
+                android:background="@drawable/bg_flight_tab_inactive">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🌅 Morning"
+                    android:textColor="@color/skyport_navy"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Before 12:00"
+                    android:textColor="@color/skyport_label_gray"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Afternoon Filter Chip -->
+            <LinearLayout
+                android:id="@+id/tabAfternoon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="90dp"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp"
+                android:background="@drawable/bg_flight_tab_inactive">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="☀️ Afternoon"
+                    android:textColor="@color/skyport_navy"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12:00 – 18:00"
+                    android:textColor="@color/skyport_label_gray"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Evening Filter Chip -->
+            <LinearLayout
+                android:id="@+id/tabEvening"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="90dp"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp"
+                android:background="@drawable/bg_flight_tab_inactive">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🌙 Evening"
+                    android:textColor="@color/skyport_navy"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="After 18:00"
+                    android:textColor="@color/skyport_label_gray"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/skyport_field_line" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:visibility="visible" />
+
+    <!-- Flight List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFlights"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:clipToPadding="false" />
+
+</LinearLayout>

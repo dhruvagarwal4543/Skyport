@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginTop="10dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Airline Header Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/ivAirlineLogo"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_plane"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/tvAirlineName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:text="SpiceJet"
+                android:textColor="@color/skyport_navy"
+                android:textStyle="bold"
+                android:fontFamily="serif"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvFlightNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SG-8169"
+                android:textColor="@color/skyport_label_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="12dp"
+            android:background="@color/skyport_field_line" />
+
+        <!-- Flight Times Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:gravity="center_vertical">
+
+            <!-- Departure -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvDepTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="19:00"
+                    android:textColor="@color/skyport_navy"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="serif" />
+
+                <TextView
+                    android:id="@+id/tvSource"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DEL"
+                    android:textColor="@color/skyport_label_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Duration (center) -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1h 45m"
+                    android:textColor="@color/skyport_label_gray"
+                    android:textSize="11sp"
+                    android:gravity="center" />
+
+                <!-- Arrow Line with plane icon -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginVertical="4dp">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1.5dp"
+                        android:layout_weight="1"
+                        android:background="@color/skyport_navy" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/ic_plane"
+                        android:tint="@color/skyport_navy" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Non stop"
+                    android:textColor="@color/primary"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <!-- Arrival -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tvArrTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20:45"
+                    android:textColor="@color/skyport_navy"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="serif" />
+
+                <TextView
+                    android:id="@+id/tvDestination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BOM"
+                    android:textColor="@color/skyport_label_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Price -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:gravity="end">
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹ 4,648"
+                    android:textColor="@color/skyport_navy"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:fontFamily="serif" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
