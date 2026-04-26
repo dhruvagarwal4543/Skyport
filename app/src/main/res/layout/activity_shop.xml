@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA">
+
+    <!-- Top search bar section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/white"
+        android:elevation="4dp"
+        android:gravity="center_vertical">
+        
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_search_bar"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
+            
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_search"
+                android:tint="@color/skyport_label_gray"/>
+                
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:text="Browse our restaurants and shops"
+                android:textColor="@color/skyport_label_gray"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_mic"
+                android:tint="@color/skyport_label_gray"/>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnFilter"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/bg_filter_btn"
+            android:src="@drawable/ic_filter"
+            android:tint="@color/white"
+            android:scaleType="centerInside"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="80dp">
+
+            <!-- Section 1: Popular Shops -->
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="16dp" android:layout_marginBottom="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Popular Shops" android:textSize="18sp" android:textStyle="bold" android:textColor="@color/skyport_navy"/>
+                <TextView android:id="@+id/btnSeeAllShops" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="See All" android:textSize="14sp" android:textColor="@color/primary" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:textStyle="bold"/>
+            </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPopularShops"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Section 2: Restaurant Recommendations -->
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="16dp" android:layout_marginBottom="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Restaurant Recommendations" android:textSize="18sp" android:textStyle="bold" android:textColor="@color/skyport_navy"/>
+                <TextView android:id="@+id/btnSeeAllRest" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="See All" android:textSize="14sp" android:textColor="@color/primary" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:textStyle="bold"/>
+            </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRestaurants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Section 3: Special Promotions -->
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="16dp" android:layout_marginBottom="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Special Promotions" android:textSize="18sp" android:textStyle="bold" android:textColor="@color/skyport_navy"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="See All" android:textSize="14sp" android:textColor="@color/primary" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:textStyle="bold"/>
+            </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPromotions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:layout_marginBottom="80dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

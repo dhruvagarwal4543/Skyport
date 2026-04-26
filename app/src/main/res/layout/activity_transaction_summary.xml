@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:background="@color/white"
+        android:elevation="4dp">
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_back"
+            android:tint="@color/skyport_navy"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Transaction Summary"
+            android:textColor="@color/skyport_navy"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+        <View android:layout_width="36dp" android:layout_height="36dp"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="@color/white">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    
+                    <ImageView
+                        android:id="@+id/ivSumImage"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/img_shop_placeholder"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_search_bar"
+                        android:clipToOutline="true"/>
+                        
+                    <TextView
+                        android:id="@+id/tvSumShop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Starbucks"
+                        android:textColor="@color/skyport_navy"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"/>
+                        
+                    <TextView
+                        android:id="@+id/tvSumStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Finished"
+                        android:textColor="#27AE60"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4dp"/>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0" android:layout_marginVertical="16dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Order Date" android:textColor="@color/skyport_label_gray"/>
+                        <TextView android:id="@+id/tvSumDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Mar 2026" android:textColor="@color/skyport_navy" android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Items" android:textColor="@color/skyport_label_gray"/>
+                        <TextView android:id="@+id/tvSumItem" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cold Coffee &amp; Wrap" android:textColor="@color/skyport_navy" android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Price" android:textColor="@color/skyport_label_gray"/>
+                        <TextView android:id="@+id/tvSumBase" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="₹ 400" android:textColor="@color/skyport_navy" android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Tax" android:textColor="@color/skyport_label_gray"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="₹ 50" android:textColor="@color/skyport_navy" android:textStyle="bold"/>
+                    </LinearLayout>
+                    
+                    <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#E0E0E0" android:layout_marginBottom="12dp"/>
+                    
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Total" android:textColor="@color/skyport_navy" android:textSize="16sp" android:textStyle="bold"/>
+                        <TextView android:id="@+id/tvSumTotal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="₹ 450" android:textColor="@color/primary" android:textSize="18sp" android:textStyle="bold"/>
+                    </LinearLayout>
+                    
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Rate your experience" android:textColor="@color/skyport_navy" android:textSize="16sp" android:textStyle="bold" android:layout_gravity="center" android:layout_marginBottom="12dp"/>
+            
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_gravity="center" android:layout_marginBottom="32dp">
+                <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_star" android:tint="#F39C12"/>
+                <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_star" android:tint="#F39C12" android:layout_marginStart="8dp"/>
+                <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_star" android:tint="#F39C12" android:layout_marginStart="8dp"/>
+                <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_star" android:tint="#F39C12" android:layout_marginStart="8dp"/>
+                <ImageView android:layout_width="36dp" android:layout_height="36dp" android:src="@drawable/ic_star" android:tint="#E0E0E0" android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmitReview"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:text="Submit Review"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/skyport_navy"
+                android:stateListAnimator="@null"/>
+                
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -39,6 +39,11 @@
         <activity android:name=".activities.ConfirmPaymentActivity"  android:exported="false" />
         <activity android:name=".activities.BookingConfirmedActivity" android:exported="false" />
         <activity android:name=".activities.BookingFailedActivity"   android:exported="false" />
+        <activity android:name=".activities.ShopActivity"   android:exported="false" />
+        <activity android:name=".activities.ShopDetailActivity"   android:exported="false" />
+        <activity android:name=".activities.OrderConfirmationActivity"   android:exported="false" />
+        <activity android:name=".activities.TransactionHistoryActivity"   android:exported="false" />
+        <activity android:name=".activities.TransactionSummaryActivity"   android:exported="false" />
     </application>
 
 </manifest>

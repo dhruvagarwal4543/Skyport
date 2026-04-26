@@ -36,18 +36,15 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNav = findViewById(R.id.bottomNavigationView);
 
-        // Create fragment instances once
+        // ServicesFragment logic removed, keep others
         fragHome     = new HomeFragment();
         fragMap      = new MapFragment();
-        fragServices = new ServicesFragment();
         fragProfile  = new ProfileFragment();
 
         // Add all fragments; show only Home initially
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragmentContainer, fragProfile,  "profile")
                 .hide(fragProfile)
-                .add(R.id.fragmentContainer, fragServices, "services")
-                .hide(fragServices)
                 .add(R.id.fragmentContainer, fragMap,      "map")
                 .hide(fragMap)
                 .add(R.id.fragmentContainer, fragHome,     "home")   // shown last → visible on top
@@ -66,6 +63,12 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MyTicketsActivity.class));
                 return true;
             }
+            
+            // nav_shop = Shops & Services → launch as a standalone activity
+            if (id == R.id.nav_shop) {
+                startActivity(new Intent(this, ShopActivity.class));
+                return true;
+            }
 
             Fragment target = resolveFragment(id);
             if (target == null || target == activeFragment) return true;
@@ -79,7 +82,6 @@ public class HomeActivity extends AppCompatActivity {
     private Fragment resolveFragment(int navId) {
         if (navId == R.id.nav_location) return fragMap;       // Location → Airport map
         if (navId == R.id.nav_home)     return fragHome;      // Home icon → Home dashboard
-        if (navId == R.id.nav_shop)     return fragServices;  // Shop → Services
         if (navId == R.id.nav_doc)      return fragProfile;   // Doc → Profile
         return null;
     }
