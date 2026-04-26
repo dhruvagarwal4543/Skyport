@@ -48,4 +48,16 @@
             android:textSize="12sp" />
     </LinearLayout>
 
+    <!-- Location icon: tapping shows map preview -->
+    <ImageView
+        android:id="@+id/ivLocationPin"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="6dp"
+        android:src="@drawable/ic_nav_location"
+        android:tint="@color/skyport_navy"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Show on map" />
+
 </LinearLayout>
+

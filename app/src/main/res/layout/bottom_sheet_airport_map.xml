@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!-- Handle bar -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
+        android:background="#E0E0E0"
+        android:backgroundTint="@color/skyport_field_line" />
+
+    <!-- Airport header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/tvMapIata"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_iata_code"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="DEL"
+            android:textColor="@color/skyport_navy"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMapCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Delhi"
+                android:textColor="@color/skyport_navy"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:fontFamily="serif" />
+
+            <TextView
+                android:id="@+id/tvMapAirportName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Indira Gandhi International Airport"
+                android:textColor="@color/skyport_label_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Map WebView -->
+    <WebView
+        android:id="@+id/webViewMap"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@color/skyport_field_line" />
+
+    <!-- Open in Maps link -->
+    <TextView
+        android:id="@+id/tvOpenInMaps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="12dp"
+        android:text="Open in Maps ↗"
+        android:textColor="@color/primary"
+        android:textSize="13sp"
+        android:padding="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+</LinearLayout>

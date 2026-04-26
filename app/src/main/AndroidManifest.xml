@@ -31,6 +31,14 @@
         <activity android:name=".activities.FlightListActivity" android:exported="false" />
         <activity android:name=".activities.MyAccountActivity" android:exported="false" />
         <activity android:name=".activities.EditProfileActivity" android:exported="false" />
+        <activity android:name=".activities.MyTicketsActivity"  android:exported="false" />
+        <activity android:name=".activities.TicketDetailActivity" android:exported="false" />
+        <activity android:name=".activities.QRActivity"         android:exported="false" />
+        <activity android:name=".activities.ChoosePaymentActivity"   android:exported="false" />
+        <activity android:name=".activities.InputPaymentActivity"    android:exported="false" />
+        <activity android:name=".activities.ConfirmPaymentActivity"  android:exported="false" />
+        <activity android:name=".activities.BookingConfirmedActivity" android:exported="false" />
+        <activity android:name=".activities.BookingFailedActivity"   android:exported="false" />
     </application>
 
 </manifest>

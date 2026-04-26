@@ -34,6 +34,10 @@ public class HomeFragment extends Fragment {
     private TextView tvGreeting;
     private int travellerCount = 1;
     private boolean isSelectingFrom = true;
+    // Separate ISO dates (yyyy-MM-dd) for departure and return.
+    // Only departureDateIso is sent to Firebase for filtering.
+    private String departureDateIso = null;
+    private String returnDateIso    = null;
 
     private final ActivityResultLauncher<Intent> airportSearchLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -87,8 +91,8 @@ public class HomeFragment extends Fragment {
             airportSearchLauncher.launch(intent);
         });
 
-        llDepartureDate.setOnClickListener(v -> showDatePicker(tvDepartureDate));
-        llReturnDate   .setOnClickListener(v -> showDatePicker(tvReturnDate));
+        llDepartureDate.setOnClickListener(v -> showDatePicker(tvDepartureDate, true));
+        llReturnDate   .setOnClickListener(v -> showDatePicker(tvReturnDate,    false));
 
         TextView btnTravellerMinus = view.findViewById(R.id.btnTravellerMinus);
         TextView btnTravellerPlus  = view.findViewById(R.id.btnTravellerPlus);
@@ -126,7 +130,8 @@ public class HomeFragment extends Fragment {
             intent.putExtra("FROM_IATA",  fromIata);
             intent.putExtra("TO_NAME",    toText);
             intent.putExtra("TO_IATA",    toIata);
-            intent.putExtra("DATE",       dateText);
+            intent.putExtra("DATE",         departureDateIso != null ? departureDateIso : "");
+            intent.putExtra("DATE_DISPLAY",  dateText);
             intent.putExtra("TRAVELLERS", travellersText);
             startActivity(intent);
         });
@@ -190,7 +195,11 @@ public class HomeFragment extends Fragment {
 
     // ─────────────────────────────────────────────────────────────────────────
 
-    private void showDatePicker(TextView targetTextView) {
+    /**
+     * @param isDeparture true  → writes to departureDateIso (sent to Firebase)
+     *                    false → writes to returnDateIso (display only)
+     */
+    private void showDatePicker(TextView targetTextView, boolean isDeparture) {
         final Calendar c = Calendar.getInstance();
         int year  = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -198,9 +207,24 @@ public class HomeFragment extends Fragment {
 
         DatePickerDialog dialog = new DatePickerDialog(requireContext(),
                 (view2, year1, monthOfYear, dayOfMonth) -> {
-                    String formatted = String.format(Locale.getDefault(),
-                            "%02d/%02d/%d", dayOfMonth, monthOfYear + 1, year1);
-                    targetTextView.setText(formatted);
+                    // Display-friendly format shown in the UI  (e.g. "25 Apr 2026")
+                    String displayDate = String.format(Locale.getDefault(),
+                            "%02d %s %d",
+                            dayOfMonth,
+                            new java.text.DateFormatSymbols().getShortMonths()[monthOfYear],
+                            year1);
+                    targetTextView.setText(displayDate);
+
+                    // ISO format for Firebase queries (yyyy-MM-dd)
+                    String isoDate = String.format(Locale.US,
+                            "%04d-%02d-%02d", year1, monthOfYear + 1, dayOfMonth);
+
+                    if (isDeparture) {
+                        departureDateIso = isoDate;
+                        android.util.Log.d("DEBUG", "Departure ISO date set: " + departureDateIso);
+                    } else {
+                        returnDateIso = isoDate;
+                    }
                 }, year, month, day);
         dialog.show();
     }

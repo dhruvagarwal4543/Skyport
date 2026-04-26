@@ -17,7 +17,16 @@ import java.util.List;
 
 public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.FlightViewHolder> {
 
+    public interface OnFlightClickListener {
+        void onFlightClick(Flight flight);
+    }
+
     private List<Flight> flights = new ArrayList<>();
+    private OnFlightClickListener clickListener;
+
+    public void setOnFlightClickListener(OnFlightClickListener listener) {
+        this.clickListener = listener;
+    }
 
     public void setFlights(List<Flight> flights) {
         this.flights = flights;
@@ -36,25 +45,35 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.FlightView
     public void onBindViewHolder(@NonNull FlightViewHolder holder, int position) {
         Flight flight = flights.get(position);
 
-        // Map airline code → friendly name
+        // Prefer airline_name directly from Firebase; fall back to code-to-name map
         String airlineCode = flight.getAirline();
-        holder.tvAirlineName.setText(getAirlineName(airlineCode));
+        String airlineName = flight.getAirline_name();
+        if (airlineName == null || airlineName.isEmpty()) {
+            airlineName = getAirlineName(airlineCode);
+        }
+        holder.tvAirlineName.setText(airlineName);
         holder.ivAirlineLogo.setImageResource(getLogoForAirline(airlineCode));
 
-        holder.tvDepTime.setText(flight.getDeparture_time());
+        holder.tvDepTime.setText(flight.getDeparture_time() != null ? flight.getDeparture_time() : "--:--");
         holder.tvSource.setText(flight.getSource());
-        holder.tvArrTime.setText(flight.getArrival_time());
+        holder.tvArrTime.setText(flight.getArrival_time() != null ? flight.getArrival_time() : "--:--");
         holder.tvDestination.setText(flight.getDestination());
-        holder.tvDuration.setText(flight.getDuration());
+        holder.tvDuration.setText(flight.getDuration() != null ? flight.getDuration() : "");
 
         String flightNum = flight.getFlight_number();
         holder.tvFlightNumber.setText(flightNum != null ? flightNum : "");
 
         String price = flight.getPrice();
-        if (price == null) price = "₹ -";
+        if (price == null || price.isEmpty()) price = "₹ -";
         else if (!price.contains("₹")) price = "₹ " + price;
         holder.tvPrice.setText(price);
+
+        // Tap entire card → booking flow
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) clickListener.onFlightClick(flight);
+        });
     }
+
 
     @Override
     public int getItemCount() {

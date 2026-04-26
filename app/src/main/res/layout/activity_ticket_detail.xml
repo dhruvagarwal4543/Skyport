@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F2F5">
+
+    <!-- Top bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/skyport_navy"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ticket Details"
+            android:textColor="@color/primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <View android:layout_width="36dp" android:layout_height="36dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Main ticket card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <!-- FROM → TO header -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="FROM"
+                            android:textColor="@color/skyport_label_gray"
+                            android:textSize="10sp" android:letterSpacing="0.08" />
+
+                        <View android:layout_width="0dp" android:layout_height="1dp"
+                            android:layout_weight="1" android:layout_marginHorizontal="8dp"
+                            android:background="@color/skyport_field_line" />
+
+                        <ImageView
+                            android:layout_width="20dp" android:layout_height="20dp"
+                            android:src="@drawable/ic_plane"
+                            android:tint="@color/skyport_navy" />
+
+                        <View android:layout_width="0dp" android:layout_height="1dp"
+                            android:layout_weight="1" android:layout_marginHorizontal="8dp"
+                            android:background="@color/skyport_field_line" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="TO"
+                            android:textColor="@color/skyport_label_gray"
+                            android:textSize="10sp" android:letterSpacing="0.08" />
+                    </LinearLayout>
+
+                    <!-- City row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="18dp">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:id="@+id/tvFromCity"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Delhi (DEL)" android:textColor="@color/skyport_navy"
+                                android:textSize="15sp" android:textStyle="bold" />
+                            <TextView android:id="@+id/tvFromTime"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="18:55 Tue, 17 Mar" android:textColor="@color/skyport_text_secondary"
+                                android:textSize="12sp" android:layout_marginTop="3dp" />
+                            <TextView android:id="@+id/tvFromTerminal"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Terminal 3" android:textColor="@color/skyport_label_gray"
+                                android:textSize="11sp" android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical" android:gravity="end">
+                            <TextView android:id="@+id/tvToCity"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Mumbai (BOM)" android:textColor="@color/skyport_navy"
+                                android:textSize="15sp" android:textStyle="bold" />
+                            <TextView android:id="@+id/tvToTime"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="21:40 Tue, 17 Mar" android:textColor="@color/skyport_text_secondary"
+                                android:textSize="12sp" android:layout_marginTop="3dp" />
+                            <TextView android:id="@+id/tvToTerminal"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Terminal 2" android:textColor="@color/skyport_label_gray"
+                                android:textSize="11sp" android:layout_marginTop="2dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Divider -->
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="@color/skyport_field_line" android:layout_marginBottom="14dp"/>
+
+                    <!-- Gate | Flight | Seat row -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginBottom="14dp">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="GATE" android:textColor="@color/skyport_label_gray" android:textSize="10sp" android:letterSpacing="0.08"/>
+                            <TextView android:id="@+id/tvGate"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="C2" android:textColor="@color/skyport_navy"
+                                android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="FLIGHT" android:textColor="@color/skyport_label_gray" android:textSize="10sp" android:letterSpacing="0.08"/>
+                            <TextView android:id="@+id/tvFlight"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="KL-838" android:textColor="@color/skyport_navy"
+                                android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="SEAT" android:textColor="@color/skyport_label_gray" android:textSize="10sp" android:letterSpacing="0.08"/>
+                            <TextView android:id="@+id/tvSeat"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="14E" android:textColor="@color/skyport_navy"
+                                android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Divider -->
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="@color/skyport_field_line" android:layout_marginBottom="14dp"/>
+
+                    <!-- Traveller | Class -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginBottom="14dp">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="TRAVELLER" android:textColor="@color/skyport_label_gray" android:textSize="10sp" android:letterSpacing="0.08"/>
+                            <TextView android:id="@+id/tvTraveller"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Nikhil Kumar" android:textColor="@color/skyport_navy"
+                                android:textSize="15sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="CLASS" android:textColor="@color/skyport_label_gray" android:textSize="10sp" android:letterSpacing="0.08"/>
+                            <TextView android:id="@+id/tvClass"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Economy" android:textColor="@color/skyport_navy"
+                                android:textSize="15sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Divider -->
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="@color/skyport_field_line" android:layout_marginBottom="14dp"/>
+
+                    <!-- Ticket number + QR mini -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:gravity="center_vertical">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="TICKET NUMBER" android:textColor="@color/skyport_label_gray" android:textSize="10sp" android:letterSpacing="0.08"/>
+                            <TextView android:id="@+id/tvTicketNumber"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="01672721252926" android:textColor="@color/skyport_navy"
+                                android:textSize="15sp" android:textStyle="bold" android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+
+                        <!-- Mini QR → tapping opens QRActivity -->
+                        <ImageView
+                            android:id="@+id/ivQrMini"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/qr_code_ticket"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/bg_qr_border"
+                            android:padding="4dp"
+                            android:clickable="true"
+                            android:focusable="true" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Print Ticket button -->
+            <Button
+                android:id="@+id/btnPrintTicket"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Print Ticket"
+                android:textColor="@color/skyport_navy"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_toggle_track"
+                android:letterSpacing="0" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

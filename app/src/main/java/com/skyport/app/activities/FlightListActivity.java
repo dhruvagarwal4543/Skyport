@@ -1,5 +1,6 @@
 package com.skyport.app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -68,12 +69,13 @@ public class FlightListActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         // Extract route info
-        String fromName   = getIntent().getStringExtra("FROM_NAME");
-        String fromIata   = getIntent().getStringExtra("FROM_IATA");
-        String toName     = getIntent().getStringExtra("TO_NAME");
-        String toIata     = getIntent().getStringExtra("TO_IATA");
-        String date       = getIntent().getStringExtra("DATE");
-        String travellers = getIntent().getStringExtra("TRAVELLERS");
+        String fromName    = getIntent().getStringExtra("FROM_NAME");
+        String fromIata    = getIntent().getStringExtra("FROM_IATA");
+        String toName      = getIntent().getStringExtra("TO_NAME");
+        String toIata      = getIntent().getStringExtra("TO_IATA");
+        String dateIso     = getIntent().getStringExtra("DATE");         // yyyy-MM-dd for Firebase
+        String dateDisplay = getIntent().getStringExtra("DATE_DISPLAY"); // human-readable for UI
+        String travellers  = getIntent().getStringExtra("TRAVELLERS");
 
         if (fromName != null && fromName.contains(" ("))
             fromName = fromName.substring(0, fromName.indexOf(" (")).trim();
@@ -83,15 +85,26 @@ public class FlightListActivity extends AppCompatActivity {
         String displayFrom = (fromName != null && !fromName.isEmpty()) ? fromName : fromIata;
         String displayTo   = (toName   != null && !toName.isEmpty())   ? toName   : toIata;
 
+        // Use the more user-friendly date in the header; fall back to iso
+        String headerDate = (dateDisplay != null && !dateDisplay.isEmpty()) ? dateDisplay : dateIso;
         tvRouteTitle.setText(displayFrom + " to " + displayTo);
         tvRouteDetails.setText(
-            (date       != null ? date       : "") + " | " +
-            (travellers != null ? travellers : "1 Adult") + " | Economy"
+            (headerDate  != null ? headerDate  : "") + " | " +
+            (travellers  != null ? travellers  : "1 Adult") + " | Economy"
         );
 
         // RecyclerView
         rvFlights.setLayoutManager(new LinearLayoutManager(this));
         flightAdapter = new FlightAdapter();
+        flightAdapter.setOnFlightClickListener(flight -> {
+            // Launch booking flow with flight price
+            Intent intent = new Intent(this, ChoosePaymentActivity.class);
+            String priceStr = flight.getPrice();
+            if (priceStr != null && !priceStr.isEmpty()) {
+                intent.putExtra("PRICE", "\u20B9 " + priceStr);
+            }
+            startActivity(intent);
+        });
         rvFlights.setAdapter(flightAdapter);
 
         // Tab click listeners
@@ -102,24 +115,34 @@ public class FlightListActivity extends AppCompatActivity {
         tabEvening  .setOnClickListener(v -> setFilter(FILTER_EVENING));
 
         db = FirebaseFirestore.getInstance();
-        fetchFlights(fromIata, toIata);
+        fetchFlights(fromIata, toIata, dateIso);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
     // Firebase fetch
     // ─────────────────────────────────────────────────────────────────────────
 
-    private void fetchFlights(String source, String destination) {
+    private void fetchFlights(String source, String destination, String selectedDate) {
         if (source == null || destination == null) {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(this, "Please select From and To airports", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // ── Defensive date normalization ──────────────────────────────────────
+        // Expected Firebase format: yyyy-MM-dd
+        // Guard against old dd/MM/yyyy format slipping through
+        String formattedDate = normalizeDate(selectedDate);
+
+        android.util.Log.d("DEBUG", "Source: "          + source);
+        android.util.Log.d("DEBUG", "Destination: "     + destination);
+        android.util.Log.d("DEBUG", "Selected Date: "   + selectedDate);
+        android.util.Log.d("DEBUG", "Formatted Date: "  + formattedDate);
+        android.util.Log.d("DATE_DEBUG",    "Selected Date: " + formattedDate);
+        android.util.Log.d("FIREBASE_DEBUG","Searching route: " + source + " → " + destination);
+
         progressBar.setVisibility(View.VISIBLE);
         rvFlights.setVisibility(View.GONE);
-
-        android.util.Log.d("FIREBASE_DEBUG", "Searching route: " + source + " → " + destination);
 
         // Step 1: Find the matching route document
         db.collection("routes")
@@ -128,7 +151,7 @@ public class FlightListActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(routeSnapshots -> {
                     if (routeSnapshots.isEmpty()) {
-                        android.util.Log.d("FIREBASE_DEBUG", "No route document found for " + source + " → " + destination);
+                        android.util.Log.d("FIREBASE_DEBUG", "No route found for " + source + " → " + destination);
                         progressBar.setVisibility(View.GONE);
                         rvFlights.setVisibility(View.VISIBLE);
                         Toast.makeText(this, "No flights available for this route.", Toast.LENGTH_LONG).show();
@@ -138,20 +161,33 @@ public class FlightListActivity extends AppCompatActivity {
                     String routeId = routeSnapshots.getDocuments().get(0).getId();
                     android.util.Log.d("FIREBASE_DEBUG", "Route found: " + routeId);
 
-                    // Step 2: Fetch flights from the subcollection
-                    db.collection("routes")
-                            .document(routeId)
-                            .collection("flights")
-                            .get()
+                    // Step 2: Fetch flights from subcollection, filtered by date when provided
+                    com.google.firebase.firestore.CollectionReference flightsRef =
+                            db.collection("routes").document(routeId).collection("flights");
+
+                    com.google.android.gms.tasks.Task<com.google.firebase.firestore.QuerySnapshot> flightQuery;
+
+                    if (formattedDate != null && !formattedDate.isEmpty()) {
+                        android.util.Log.d("DEBUG",      "Applying date filter: departure_date == " + formattedDate);
+                        android.util.Log.d("DATE_DEBUG", "Applying date filter: departure_date == " + formattedDate);
+                        flightQuery = flightsRef.whereEqualTo("departure_date", formattedDate).get();
+                    } else {
+                        android.util.Log.d("DEBUG", "No date selected — fetching ALL flights for route");
+                        flightQuery = flightsRef.get();
+                    }
+
+                    flightQuery
                             .addOnSuccessListener(flightSnapshots -> {
                                 android.util.Log.d("FIREBASE_DEBUG", "Flights count: " + flightSnapshots.size());
+                                android.util.Log.d("DATE_DEBUG",    "Flights found: " + flightSnapshots.size());
 
                                 allFlights.clear();
-                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                SimpleDateFormat sdf    = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                SimpleDateFormat sdfFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
                                 for (QueryDocumentSnapshot doc : flightSnapshots) {
 
-                                    // departure_time (Timestamp or String)
+                                    // ── departure_time ────────────────────────────
                                     String depTime = "";
                                     Object depRaw  = doc.get("departure_time");
                                     if (depRaw instanceof Timestamp)
@@ -159,29 +195,41 @@ public class FlightListActivity extends AppCompatActivity {
                                     else if (depRaw instanceof String)
                                         depTime = (String) depRaw;
 
-                                    // arrival_time (Timestamp or String)
-                                    String arrTime = "";
-                                    Object arrRaw  = doc.get("arrival_time");
-                                    if (arrRaw instanceof Timestamp)
-                                        arrTime = sdf.format(((Timestamp) arrRaw).toDate());
-                                    else if (arrRaw instanceof String)
-                                        arrTime = (String) arrRaw;
-
-                                    // duration → "Xh Ym"
-                                    String duration = "";
-                                    Object durRaw = doc.get("duration");
+                                    // ── duration → "Xh Ym" ───────────────────────
+                                    String duration   = "";
+                                    long   durationMs = 0;
+                                    Object durRaw     = doc.get("duration");
                                     if (durRaw instanceof Long) {
                                         long m = (Long) durRaw;
+                                        durationMs = m * 60 * 1000L;
                                         duration = (m / 60) + "h " + (m % 60) + "m";
                                     } else if (durRaw instanceof Double) {
                                         long m = ((Double) durRaw).longValue();
+                                        durationMs = m * 60 * 1000L;
                                         duration = (m / 60) + "h " + (m % 60) + "m";
                                     } else if (durRaw instanceof String) {
                                         duration = (String) durRaw;
                                     }
 
-                                    // price (Long, Double, or String)
-                                    String price = "";
+                                    // ── arrival_time: stored OR calculated ────────
+                                    String arrTime = "";
+                                    Object arrRaw  = doc.get("arrival_time");
+                                    if (arrRaw instanceof Timestamp)
+                                        arrTime = sdf.format(((Timestamp) arrRaw).toDate());
+                                    else if (arrRaw instanceof String && !((String) arrRaw).isEmpty())
+                                        arrTime = (String) arrRaw;
+
+                                    // If not stored, calculate from departure_timestamp + duration
+                                    if (arrTime.isEmpty() && durationMs > 0) {
+                                        Object depTs = doc.get("departure_timestamp");
+                                        if (depTs instanceof Timestamp) {
+                                            long arrMs = ((Timestamp) depTs).toDate().getTime() + durationMs;
+                                            arrTime = sdfFmt.format(new java.util.Date(arrMs));
+                                        }
+                                    }
+
+                                    // ── price ─────────────────────────────────────
+                                    String price    = "";
                                     Object priceRaw = doc.get("price");
                                     if (priceRaw instanceof Long)
                                         price = String.valueOf((Long) priceRaw);
@@ -190,14 +238,31 @@ public class FlightListActivity extends AppCompatActivity {
                                     else if (priceRaw instanceof String)
                                         price = (String) priceRaw;
 
+                                    // ── other fields ──────────────────────────────
+                                    String airlineCode  = doc.getString("airline");
+                                    String airlineName  = doc.getString("airline_name");
+                                    String depDate      = doc.getString("departure_date");
+                                    int    seats        = 0;
+                                    Object seatsRaw     = doc.get("seats_available");
+                                    if (seatsRaw instanceof Long)   seats = ((Long) seatsRaw).intValue();
+                                    else if (seatsRaw instanceof Double) seats = ((Double) seatsRaw).intValue();
+
+                                    android.util.Log.d("ROUTE_DEBUG",  "Route found: " + routeId);
+                                    android.util.Log.d("FLIGHT_DEBUG", "Flights found: " + flightSnapshots.size());
+                                    android.util.Log.d("DATE_DEBUG",   formattedDate != null ? formattedDate : "null");
+
                                     allFlights.add(new Flight(
-                                            doc.getString("airline"),
+                                            airlineCode,
+                                            airlineName,
                                             source,
                                             destination,
                                             depTime, arrTime, duration, price,
-                                            doc.getString("flight_number")
+                                            null,   // flight_number not in new schema
+                                            depDate,
+                                            seats
                                     ));
                                 }
+
 
                                 progressBar.setVisibility(View.GONE);
                                 rvFlights.setVisibility(View.VISIBLE);
@@ -205,24 +270,59 @@ public class FlightListActivity extends AppCompatActivity {
                                 applyFilter(activeFilter);
 
                                 if (allFlights.isEmpty()) {
-                                    Toast.makeText(this, "No flights available for this route.", Toast.LENGTH_LONG).show();
+                                    String msg = (formattedDate != null && !formattedDate.isEmpty())
+                                            ? "No flights available for " + formattedDate
+                                            : "No flights available for this route.";
+                                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                                 }
                             })
                             .addOnFailureListener(e -> {
-                                android.util.Log.e("FIREBASE_DEBUG", "Error fetching flights subcollection: " + e.getMessage());
+                                android.util.Log.e("FIREBASE_DEBUG", "Flights fetch error: " + e.getMessage());
                                 progressBar.setVisibility(View.GONE);
                                 rvFlights.setVisibility(View.VISIBLE);
                                 Toast.makeText(this, "Error loading flights: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             });
                 })
                 .addOnFailureListener(e -> {
-                    android.util.Log.e("FIREBASE_DEBUG", "Error fetching route: " + e.getMessage());
+                    android.util.Log.e("FIREBASE_DEBUG", "Route fetch error: " + e.getMessage());
                     progressBar.setVisibility(View.GONE);
                     rvFlights.setVisibility(View.VISIBLE);
                     Toast.makeText(this, "Error finding route: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // Date normalization helper
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Ensures the date is in yyyy-MM-dd format for Firebase.
+     * Accepts:
+     *   - Already correct: "2026-05-01"  → returns as-is
+     *   - Old UI format:   "01/05/2026"  → converts to "2026-05-01"
+     *   - Null / empty / unrecognized   → returns null (query without date)
+     */
+    private String normalizeDate(String raw) {
+        if (raw == null || raw.isEmpty()) return null;
+
+        // Already in yyyy-MM-dd  (length 10, char[4] == '-', char[7] == '-')
+        if (raw.length() == 10 && raw.charAt(4) == '-' && raw.charAt(7) == '-') {
+            return raw;
+        }
+
+        // Convert dd/MM/yyyy  (length 10, char[2] == '/', char[5] == '/')
+        if (raw.length() == 10 && raw.charAt(2) == '/' && raw.charAt(5) == '/') {
+            try {
+                String[] parts = raw.split("/");
+                return parts[2] + "-" + parts[1] + "-" + parts[0]; // yyyy-MM-dd
+            } catch (Exception e) {
+                android.util.Log.w("DEBUG", "Date parse failed for: " + raw);
+            }
+        }
+
+        android.util.Log.w("DEBUG", "Unrecognized date format, querying without date: " + raw);
+        return null; // don't filter — show all flights for the route
+    }
 
     // ─────────────────────────────────────────────────────────────────────────
     // Dynamic tab labels

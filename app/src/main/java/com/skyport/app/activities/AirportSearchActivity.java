@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.skyport.app.R;
+import com.skyport.app.fragments.AirportMapBottomSheet;
 import com.skyport.app.models.Airport;
 
 import org.json.JSONArray;
@@ -99,7 +100,18 @@ public class AirportSearchActivity extends AppCompatActivity {
                         String name = document.getString("name");
                         if (city != null && iata != null) {
                             if (name == null) name = city + " Airport";
-                            allAirports.add(new Airport(city, iata, name));
+
+                            // Read coordinates (may be absent in older docs)
+                            Double lat = document.getDouble("latitude");
+                            Double lng = document.getDouble("longitude");
+
+                            Airport airport;
+                            if (lat != null && lng != null) {
+                                airport = new Airport(city, iata, name, lat, lng);
+                            } else {
+                                airport = new Airport(city, iata, name);
+                            }
+                            allAirports.add(airport);
                         }
                     }
                     filterAirports(etSearchAirport.getText().toString().trim().toLowerCase());
@@ -136,16 +148,31 @@ public class AirportSearchActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         for (Airport airport : airports) {
             View itemView = inflater.inflate(R.layout.item_airport, container, false);
-            
-            TextView tvIata = itemView.findViewById(R.id.tvIata);
-            TextView tvCity = itemView.findViewById(R.id.tvCity);
+
+            TextView tvIata        = itemView.findViewById(R.id.tvIata);
+            TextView tvCity        = itemView.findViewById(R.id.tvCity);
             TextView tvAirportName = itemView.findViewById(R.id.tvAirportName);
+            View     ivPin         = itemView.findViewById(R.id.ivLocationPin);
 
             tvIata.setText(airport.getIata());
             tvCity.setText(airport.getCity());
             tvAirportName.setText(airport.getName());
 
+            // Row tap → select airport
             itemView.setOnClickListener(v -> handleAirportSelection(airport));
+
+            // Location pin tap → show map bottom sheet
+            ivPin.setOnClickListener(v -> {
+                AirportMapBottomSheet sheet = AirportMapBottomSheet.newInstance(
+                        airport.getIata(),
+                        airport.getCity(),
+                        airport.getName(),
+                        airport.hasCoordinates(),
+                        airport.getLatitude(),
+                        airport.getLongitude()
+                );
+                sheet.show(getSupportFragmentManager(), "AirportMap");
+            });
 
             container.addView(itemView);
         }

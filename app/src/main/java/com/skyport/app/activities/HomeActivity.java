@@ -1,49 +1,98 @@
 package com.skyport.app.activities;
 
+import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.skyport.app.R;
+import com.skyport.app.activities.MyTicketsActivity;
 import com.skyport.app.fragments.HomeFragment;
+import com.skyport.app.fragments.MapFragment;
 import com.skyport.app.fragments.ProfileFragment;
-import com.skyport.app.fragments.SearchFragment;
 import com.skyport.app.fragments.ServicesFragment;
 
 public class HomeActivity extends AppCompatActivity {
+
+    // ── Cached fragment instances ──────────────────────────────────────────────
+    private HomeFragment     fragHome;
+    private MapFragment      fragMap;
+    private ServicesFragment fragServices;
+    private ProfileFragment  fragProfile;
+
+    private Fragment activeFragment;
+    private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
-        bottomNav.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment selectedFragment = null;
-                
-                int itemId = item.getItemId();
-                if (itemId == R.id.nav_home) {
-                    selectedFragment = new HomeFragment();
-                } else {
-                    // Placeholder for other tabs
-                    selectedFragment = new HomeFragment(); 
-                }
+        bottomNav = findViewById(R.id.bottomNavigationView);
 
-                if (selectedFragment != null) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, selectedFragment).commit();
-                }
+        // Create fragment instances once
+        fragHome     = new HomeFragment();
+        fragMap      = new MapFragment();
+        fragServices = new ServicesFragment();
+        fragProfile  = new ProfileFragment();
 
+        // Add all fragments; show only Home initially
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragmentContainer, fragProfile,  "profile")
+                .hide(fragProfile)
+                .add(R.id.fragmentContainer, fragServices, "services")
+                .hide(fragServices)
+                .add(R.id.fragmentContainer, fragMap,      "map")
+                .hide(fragMap)
+                .add(R.id.fragmentContainer, fragHome,     "home")   // shown last → visible on top
+                .commit();
+
+        activeFragment = fragHome;
+
+        // Highlight the Home item as initially selected
+        bottomNav.setSelectedItemId(R.id.nav_home);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            // nav_suitcase = My Tickets → launch as a standalone activity
+            if (id == R.id.nav_suitcase) {
+                startActivity(new Intent(this, MyTicketsActivity.class));
                 return true;
             }
-        });
 
-        // Initial fetch
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
+            Fragment target = resolveFragment(id);
+            if (target == null || target == activeFragment) return true;
+            switchTo(target);
+            return true;
+        });
+    }
+
+    // ── Fragment routing ───────────────────────────────────────────────────────
+
+    private Fragment resolveFragment(int navId) {
+        if (navId == R.id.nav_location) return fragMap;       // Location → Airport map
+        if (navId == R.id.nav_home)     return fragHome;      // Home icon → Home dashboard
+        if (navId == R.id.nav_shop)     return fragServices;  // Shop → Services
+        if (navId == R.id.nav_doc)      return fragProfile;   // Doc → Profile
+        return null;
+    }
+
+    /**
+     * Show/hide fragments instead of replace() so state is preserved across tab switches.
+     * Fragments are never re-created after the first launch.
+     */
+    private void switchTo(Fragment next) {
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.hide(activeFragment);
+        tx.show(next);
+        tx.commit();
+        activeFragment = next;
     }
 }

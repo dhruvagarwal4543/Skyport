@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Full-screen map fragment with overlaid search bar and filter chips -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8ECF0">
+
+    <!-- ── Airport map image (zoomable via gesture in code) ─────────────────── -->
+    <ImageView
+        android:id="@+id/ivAirportMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/airport_map"
+        android:scaleType="centerCrop"
+        android:contentDescription="Airport terminal map" />
+
+    <!-- ── User location dot ────────────────────────────────────────────────── -->
+    <View
+        android:id="@+id/vUserDot"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_user_dot" />
+
+    <!-- ── Top overlay: search bar + filter chips ───────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Search bar card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/white"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp">
+
+                <!-- Location pin icon -->
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_nav_location"
+                    android:tint="@color/skyport_navy" />
+
+                <!-- Search hint -->
+                <TextView
+                    android:id="@+id/tvSearchHint"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="Search here"
+                    android:textColor="@color/skyport_label_gray"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif" />
+
+                <!-- Mic icon -->
+                <ImageView
+                    android:id="@+id/ivMic"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_mic"
+                    android:tint="@color/skyport_navy"
+                    android:layout_marginEnd="10dp" />
+
+                <!-- Profile avatar circle -->
+                <ImageView
+                    android:id="@+id/ivProfileAvatar"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:src="@drawable/ic_user_default"
+                    android:tint="@color/white"
+                    android:background="@drawable/bg_avatar_circle"
+                    android:padding="5dp"
+                    android:scaleType="centerCrop" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Filter chips row -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Filter toggle chip -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/chipFilter"
+                android:layout_width="44dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_filter"
+                    android:tint="@color/skyport_navy"
+                    android:padding="8dp" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Restaurants chip -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/chipRestaurants"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="14dp">
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_restaurant"
+                        android:tint="@color/skyport_navy"
+                        android:layout_marginEnd="6dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Restaurants"
+                        android:textColor="@color/skyport_navy"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif-medium" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Shopping chip -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/chipShopping"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="14dp">
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_shopping"
+                        android:tint="@color/skyport_navy"
+                        android:layout_marginEnd="6dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shopping"
+                        android:textColor="@color/skyport_navy"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif-medium" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
