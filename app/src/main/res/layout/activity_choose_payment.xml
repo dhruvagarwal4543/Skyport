@@ -1,185 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F0F2F5">
+    android:background="@color/white">
 
-    <!-- Top bar -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"
-        android:orientation="horizontal" android:gravity="center_vertical"
-        android:paddingHorizontal="12dp" android:background="@color/white">
-        <ImageButton android:id="@+id/btnBack" android:layout_width="36dp" android:layout_height="36dp"
-            android:src="@drawable/ic_back" android:tint="@color/skyport_navy"
-            android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="Back"/>
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-            android:text="Choose Payment Method" android:textColor="@color/skyport_navy"
-            android:textSize="18sp" android:textStyle="bold" android:gravity="center"/>
-        <View android:layout_width="36dp" android:layout_height="36dp"/>
-    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@id/bottomContainer">
 
-    <!-- Step indicator -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
-        android:gravity="center" android:orientation="horizontal"
-        android:background="@color/white" android:paddingBottom="8dp">
-        <View android:layout_width="10dp" android:layout_height="10dp"
-            android:background="@drawable/ic_step_active"/>
-        <View android:layout_width="40dp" android:layout_height="2dp"
-            android:background="@color/skyport_navy" android:layout_marginHorizontal="4dp"/>
-        <View android:layout_width="10dp" android:layout_height="10dp"
-            android:background="@drawable/ic_step_active"/>
-        <View android:layout_width="40dp" android:layout_height="2dp"
-            android:background="@color/skyport_field_line" android:layout_marginHorizontal="4dp"/>
-        <View android:layout_width="10dp" android:layout_height="10dp"
-            android:background="@drawable/ic_step_inactive"/>
-    </LinearLayout>
+        <!-- Top bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp"
+            android:background="@color/white">
 
-    <ScrollView android:layout_width="match_parent" android:layout_height="0dp"
-        android:layout_weight="1" android:padding="16dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_back"
+                android:tint="@color/skyport_navy"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Back" />
 
-            <!-- Payment options card -->
-            <androidx.cardview.widget.CardView android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_marginBottom="16dp"
-                app:cardCornerRadius="14dp" app:cardElevation="3dp"
-                app:cardBackgroundColor="@color/white">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="vertical" android:padding="4dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Choose Payment Method"
+                android:textColor="@color/skyport_navy"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center" />
 
-                    <!-- Credit Card -->
-                    <LinearLayout android:id="@+id/rowCreditCard" android:layout_width="match_parent"
-                        android:layout_height="64dp" android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp" android:background="?attr/selectableItemBackground">
-                        <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                            android:src="@drawable/ic_credit_card" android:tint="@color/skyport_navy"/>
-                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                            android:layout_weight="1" android:orientation="vertical"
-                            android:layout_marginStart="14dp">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="Credit Card" android:textColor="@color/skyport_navy"
-                                android:textSize="15sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="Visa / MasterCard supported"
-                                android:textColor="@color/skyport_label_gray" android:textSize="12sp"/>
-                        </LinearLayout>
-                        <RadioButton android:id="@+id/rbCreditCard" android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:checked="true"
-                            android:buttonTint="@color/skyport_navy" android:clickable="false"/>
-                    </LinearLayout>
-
-                    <View android:layout_width="match_parent" android:layout_height="1dp"
-                        android:background="@color/skyport_field_line" android:layout_marginHorizontal="16dp"/>
-
-                    <!-- Debit Card -->
-                    <LinearLayout android:id="@+id/rowDebitCard" android:layout_width="match_parent"
-                        android:layout_height="64dp" android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp" android:background="?attr/selectableItemBackground">
-                        <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                            android:src="@drawable/ic_debit_card" android:tint="@color/skyport_navy"/>
-                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                            android:layout_weight="1" android:orientation="vertical"
-                            android:layout_marginStart="14dp">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="Debit Card" android:textColor="@color/skyport_navy"
-                                android:textSize="15sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="All banks supported"
-                                android:textColor="@color/skyport_label_gray" android:textSize="12sp"/>
-                        </LinearLayout>
-                        <RadioButton android:id="@+id/rbDebitCard" android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:checked="false"
-                            android:buttonTint="@color/skyport_navy" android:clickable="false"/>
-                    </LinearLayout>
-
-                    <View android:layout_width="match_parent" android:layout_height="1dp"
-                        android:background="@color/skyport_field_line" android:layout_marginHorizontal="16dp"/>
-
-                    <!-- UPI -->
-                    <LinearLayout android:id="@+id/rowUpi" android:layout_width="match_parent"
-                        android:layout_height="64dp" android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp" android:background="?attr/selectableItemBackground">
-                        <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                            android:src="@drawable/ic_upi" android:tint="@color/skyport_navy"/>
-                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                            android:layout_weight="1" android:orientation="vertical"
-                            android:layout_marginStart="14dp">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="UPI" android:textColor="@color/skyport_navy"
-                                android:textSize="15sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="Pay via any UPI app"
-                                android:textColor="@color/skyport_label_gray" android:textSize="12sp"/>
-                        </LinearLayout>
-                        <RadioButton android:id="@+id/rbUpi" android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:checked="false"
-                            android:buttonTint="@color/skyport_navy" android:clickable="false"/>
-                    </LinearLayout>
-
-                    <View android:layout_width="match_parent" android:layout_height="1dp"
-                        android:background="@color/skyport_field_line" android:layout_marginHorizontal="16dp"/>
-
-                    <!-- Amazon Pay -->
-                    <LinearLayout android:id="@+id/rowAmazonPay" android:layout_width="match_parent"
-                        android:layout_height="64dp" android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp" android:background="?attr/selectableItemBackground">
-                        <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                            android:src="@drawable/ic_amazon_pay" android:tint="@color/skyport_navy"/>
-                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                            android:layout_weight="1" android:orientation="vertical"
-                            android:layout_marginStart="14dp">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="Amazon Pay" android:textColor="@color/skyport_navy"
-                                android:textSize="15sp" android:textStyle="bold"/>
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="Fast checkout using Amazon Pay"
-                                android:textColor="@color/skyport_label_gray" android:textSize="12sp"/>
-                        </LinearLayout>
-                        <RadioButton android:id="@+id/rbAmazonPay" android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:checked="false"
-                            android:buttonTint="@color/skyport_navy" android:clickable="false"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Selected method summary -->
-            <androidx.cardview.widget.CardView android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp" app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/white">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"
-                    android:orientation="horizontal" android:gravity="center_vertical"
-                    android:paddingHorizontal="16dp">
-                    <ImageView android:id="@+id/ivSelectedIcon" android:layout_width="24dp"
-                        android:layout_height="24dp" android:src="@drawable/ic_credit_card"
-                        android:tint="@color/skyport_navy"/>
-                    <TextView android:id="@+id/tvSelectedMethod" android:layout_width="0dp"
-                        android:layout_height="wrap_content" android:layout_weight="1"
-                        android:layout_marginStart="12dp" android:text="Credit Card"
-                        android:textColor="@color/skyport_navy" android:textSize="14sp"
-                        android:textStyle="bold"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:id="@+id/tvSelectedPrice" android:text="₹ 6,000.00"
-                        android:textColor="@color/skyport_navy" android:textSize="14sp"
-                        android:textStyle="bold"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Are you having problems with this payment? "
-                android:textColor="@color/skyport_label_gray" android:textSize="12sp"
-                android:layout_marginBottom="24dp"/>
-
+            <View
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
         </LinearLayout>
-    </ScrollView>
 
-    <!-- Bottom button -->
-    <Button android:id="@+id/btnGoToPayment" android:layout_width="match_parent"
-        android:layout_height="52dp" android:layout_margin="16dp"
-        android:text="Go to Payment" android:textColor="@color/white"
-        android:textSize="16sp" android:textStyle="bold"
-        android:backgroundTint="@color/skyport_navy" android:stateListAnimator="@null"/>
+        <!-- Step indicator (Matches Image 1: Filled Circle, Line, Empty, Line, Empty) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:paddingBottom="8dp">
 
-</LinearLayout>
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_step_filled_circle" />
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="2dp"
+                android:background="@color/skyport_navy" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_step_empty_circle" />
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="2dp"
+                android:background="@color/skyport_navy" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_step_empty_circle" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/skyport_field_line" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Dynamic Container for Saved Cards -->
+                <LinearLayout
+                    android:id="@+id/llPaymentOptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <!-- Add New Payment Method Row -->
+                <LinearLayout
+                    android:id="@+id/rowAddNewMethod"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:background="?attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="+ Add New Payment Method"
+                        android:textColor="@color/skyport_navy"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/rbAddNew"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:buttonTint="@color/skyport_navy"
+                        android:clickable="false" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/skyport_field_line" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Bottom Container fixed at bottom -->
+    <LinearLayout
+        android:id="@+id/bottomContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Are you having problems with this\npayment? "
+                android:textColor="@color/skyport_navy"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get help."
+                android:textColor="@color/skyport_navy"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Selected method summary matching Image 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_summary_payment"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/ivSelectedIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_credit_card" />
+
+            <TextView
+                android:id="@+id/tvSelectedMethod"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:text="Visa"
+                android:textColor="@color/skyport_navy"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs "
+                android:textColor="@color/skyport_navy"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvSelectedPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6000.000"
+                android:textColor="@color/skyport_navy"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnGoToPayment"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Go to Payment"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_gradient_button"
+            android:backgroundTint="@null"
+            android:stateListAnimator="@null" />
+
+    </LinearLayout>
+
+</RelativeLayout>

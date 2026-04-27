@@ -33,8 +33,10 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Animated card preview -->
-            <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            <!-- Animated card preview (hidden for UPI/Amazon Pay in code) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardPreviewView"
+                android:layout_width="match_parent"
                 android:layout_height="180dp" android:layout_marginBottom="20dp"
                 app:cardCornerRadius="16dp" app:cardElevation="6dp"
                 app:cardBackgroundColor="@color/skyport_navy">
@@ -54,7 +56,7 @@
                         android:gravity="center_vertical">
                         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                             android:layout_weight="1" android:id="@+id/tvCardNamePreview"
-                            android:text="NIKHIL KUMAR" android:textColor="@color/white"
+                            android:text="YOUR NAME" android:textColor="@color/white"
                             android:textSize="14sp" android:textAllCaps="true"/>
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:id="@+id/tvCardExpiryPreview"
@@ -108,21 +110,56 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <CheckBox android:id="@+id/cbSaveCard" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:text="Save this credit card"
+                    android:layout_height="wrap_content" android:text="Remember this card"
                     android:textColor="@color/skyport_navy" android:buttonTint="@color/skyport_navy"
                     android:layout_marginBottom="16dp"/>
             </LinearLayout>
 
-            <!-- UPI field (shown for UPI) -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/upiField" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="Enter UPI ID (e.g. name@upi)"
-                android:layout_marginBottom="12dp" android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etUpiId" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:inputType="textEmailAddress"/>
-            </com.google.android.material.textfield.TextInputLayout>
+            <!-- UPI section (shown for UPI) -->
+            <LinearLayout
+                android:id="@+id/upiSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/upiField" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="Enter UPI ID (e.g. name@upi)"
+                    android:layout_marginBottom="12dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etUpiId" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:inputType="textEmailAddress"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <CheckBox android:id="@+id/cbRememberUpi" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Remember this UPI ID"
+                    android:textColor="@color/skyport_navy" android:buttonTint="@color/skyport_navy"
+                    android:layout_marginBottom="16dp"/>
+            </LinearLayout>
+
+            <!-- Amazon Pay section -->
+            <LinearLayout
+                android:id="@+id/amazonPayView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You will complete payment via Amazon Pay."
+                    android:textColor="@color/skyport_navy"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="16dp"/>
+
+                <CheckBox android:id="@+id/cbRememberAmazon" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Remember Amazon Pay"
+                    android:textColor="@color/skyport_navy" android:buttonTint="@color/skyport_navy"
+                    android:layout_marginBottom="16dp"/>
+            </LinearLayout>
 
             <!-- Selected method summary -->
             <androidx.cardview.widget.CardView android:layout_width="match_parent"

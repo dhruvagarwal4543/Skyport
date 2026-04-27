@@ -24,7 +24,6 @@ public class HomeActivity extends AppCompatActivity {
     private HomeFragment     fragHome;
     private MapFragment      fragMap;
     private ServicesFragment fragServices;
-    private ProfileFragment  fragProfile;
 
     private Fragment activeFragment;
     private BottomNavigationView bottomNav;
@@ -39,12 +38,9 @@ public class HomeActivity extends AppCompatActivity {
         // ServicesFragment logic removed, keep others
         fragHome     = new HomeFragment();
         fragMap      = new MapFragment();
-        fragProfile  = new ProfileFragment();
 
         // Add all fragments; show only Home initially
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragmentContainer, fragProfile,  "profile")
-                .hide(fragProfile)
                 .add(R.id.fragmentContainer, fragMap,      "map")
                 .hide(fragMap)
                 .add(R.id.fragmentContainer, fragHome,     "home")   // shown last → visible on top
@@ -82,7 +78,6 @@ public class HomeActivity extends AppCompatActivity {
     private Fragment resolveFragment(int navId) {
         if (navId == R.id.nav_location) return fragMap;       // Location → Airport map
         if (navId == R.id.nav_home)     return fragHome;      // Home icon → Home dashboard
-        if (navId == R.id.nav_doc)      return fragProfile;   // Doc → Profile
         return null;
     }
 

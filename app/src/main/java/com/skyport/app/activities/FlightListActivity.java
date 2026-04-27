@@ -64,6 +64,28 @@ public class FlightListActivity extends AppCompatActivity {
 
         rvFlights.setLayoutManager(new LinearLayoutManager(this));
         flightAdapter = new FlightAdapter();
+        
+        flightAdapter.setOnFlightClickListener(flight -> {
+            Intent intent = new Intent(FlightListActivity.this, FlightDetailActivity.class);
+            intent.putExtra("airline", flight.getAirline());
+            intent.putExtra("source", flight.getSource());
+            intent.putExtra("destination", flight.getDestination());
+            intent.putExtra("flight_number", flight.getFlight_number());
+            intent.putExtra("departure_time", flight.getDeparture_time());
+            intent.putExtra("arrival_time", flight.getArrival_time());
+            intent.putExtra("duration", flight.getDuration());
+            intent.putExtra("price", flight.getPrice());
+            intent.putExtra("departureTimeMillis", flight.getDepartureTimeMillis());
+            intent.putExtra("arrivalTimeMillis", flight.getArrivalTimeMillis());
+            
+            // Forward passenger counts
+            intent.putExtra("ADULT_COUNT", getIntent().getIntExtra("ADULT_COUNT", 1));
+            intent.putExtra("CHILD_COUNT", getIntent().getIntExtra("CHILD_COUNT", 0));
+            intent.putExtra("INFANT_COUNT", getIntent().getIntExtra("INFANT_COUNT", 0));
+            
+            startActivity(intent);
+        });
+
         rvFlights.setAdapter(flightAdapter);
 
         tabCheapest.setOnClickListener(v -> setFilter(FILTER_CHEAPEST));
@@ -107,6 +129,9 @@ public class FlightListActivity extends AppCompatActivity {
 
                 String price = String.valueOf(doc.getLong("price"));
 
+                long depMillis = dep != null ? dep.toDate().getTime() : 0;
+                long arrMillis = arr != null ? arr.toDate().getTime() : 0;
+
                 allFlights.add(new Flight(
                         doc.getString("airline"),
                         doc.getString("airline_name"),
@@ -116,9 +141,11 @@ public class FlightListActivity extends AppCompatActivity {
                         arrTime,
                         duration,
                         price,
+                        doc.getString("flight_number"), // Use real flight number
                         null,
-                        null,
-                        0
+                        0,
+                        depMillis,
+                        arrMillis
                 ));
             }
 

@@ -103,38 +103,10 @@
                     android:id="@+id/rowNotifications" />
                 <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
                 <include layout="@layout/item_profile_row"
-                    android:id="@+id/rowFlightDetails" />
-                <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
-                <include layout="@layout/item_profile_row"
                     android:id="@+id/rowTransactions" />
                 <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
                 <include layout="@layout/item_profile_row"
                     android:id="@+id/rowPaymentMethods" />
-            </LinearLayout>
-
-            <!-- PREFERENCES Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Preferences"
-                android:textColor="@color/skyport_navy"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:fontFamily="serif"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <include layout="@layout/item_profile_row"
-                    android:id="@+id/rowCurrency" />
-                <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/skyport_field_line" />
-                <include layout="@layout/item_profile_row"
-                    android:id="@+id/rowSettings" />
             </LinearLayout>
 
             <!-- OTHER INFORMATION Section -->

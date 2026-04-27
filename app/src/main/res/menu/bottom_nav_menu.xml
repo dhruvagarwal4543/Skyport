@@ -16,8 +16,4 @@
         android:id="@+id/nav_suitcase"
         android:icon="@drawable/ic_nav_suitcase"
         android:title="" />
-    <item
-        android:id="@+id/nav_doc"
-        android:icon="@drawable/ic_nav_doc"
-        android:title="" />
 </menu>

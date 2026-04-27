@@ -12,7 +12,12 @@ import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.skyport.app.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,23 +51,15 @@ public class LoginActivity extends AppCompatActivity {
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-
                     if (result.getResultCode() == RESULT_OK) {
-
                         Task<GoogleSignInAccount> task =
                                 GoogleSignIn.getSignedInAccountFromIntent(result.getData());
-
                         try {
                             GoogleSignInAccount account = task.getResult(ApiException.class);
-
                             firebaseAuthWithGoogle(account.getIdToken());
-
                         } catch (Exception e) {
-                            Toast.makeText(this,
-                                    "Google Sign-In Failed",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Google Sign-In Failed", Toast.LENGTH_SHORT).show();
                         }
-
                     } else {
                         Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
                     }
@@ -70,32 +67,41 @@ public class LoginActivity extends AppCompatActivity {
         );
 
         // ✅ Button click
-        findViewById(R.id.googleBtn).setOnClickListener(v -> {
-            launcher.launch(googleSignInClient.getSignInIntent());
-        });
+        findViewById(R.id.googleBtn).setOnClickListener(v ->
+                launcher.launch(googleSignInClient.getSignInIntent()));
     }
 
-    // ✅ Firebase Auth (FINAL CLEAN)
     private void firebaseAuthWithGoogle(String idToken) {
-
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
-
                     if (task.isSuccessful()) {
-
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            upsertUserToFirestore(user);
+                        }
                         Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-
-                        // 👉 ALWAYS go to Home
                         startActivity(new Intent(this, HomeActivity.class));
                         finish();
-
                     } else {
-                        Toast.makeText(this,
-                                "Error: " + task.getException(),
-                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Error: " + task.getException(), Toast.LENGTH_LONG).show();
                     }
+                });
+    }
+
+    /** Merge user profile into Firestore (does NOT overwrite existing fields). */
+    private void upsertUserToFirestore(FirebaseUser user) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("uid", user.getUid());
+        data.put("email", user.getEmail() != null ? user.getEmail() : "");
+        data.put("name", user.getDisplayName() != null ? user.getDisplayName() : "");
+
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(user.getUid())
+                .set(data, SetOptions.merge())
+                .addOnFailureListener(e -> {
+                    // Silent failure — don't crash the app
                 });
     }
 }

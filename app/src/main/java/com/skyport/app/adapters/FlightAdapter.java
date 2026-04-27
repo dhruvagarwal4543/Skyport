@@ -97,9 +97,9 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.FlightView
         if (code == null) return R.drawable.ic_plane;
         switch (code.toUpperCase()) {
             case "6E": return R.drawable.ic_indigo;
-            case "SG": return R.drawable.ic_spicejet;
+            case "SG": return R.drawable.img_spicejet;
             case "AI":
-            case "IX": return R.drawable.ic_airindia;
+            case "IX": return R.drawable.img_airindia;
             default:   return R.drawable.ic_plane;
         }
     }

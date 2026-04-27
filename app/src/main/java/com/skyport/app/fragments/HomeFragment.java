@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -24,15 +26,22 @@ import com.skyport.app.R;
 import com.skyport.app.activities.AirportSearchActivity;
 import com.skyport.app.activities.FlightListActivity;
 import com.skyport.app.activities.MyAccountActivity;
+import com.skyport.app.adapters.BannerAdapter;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import androidx.viewpager2.widget.ViewPager2;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
     private TextView tvFromCity, tvToCity, tvDepartureDate, tvReturnDate, tvTravellers;
     private TextView tvGreeting;
-    private int travellerCount = 1;
+    private int adultCount = 1;
+    private int childCount = 0;
+    private int infantCount = 0;
     private boolean isSelectingFrom = true;
     // Separate ISO dates (yyyy-MM-dd) for departure and return.
     // Only departureDateIso is sent to Firebase for filtering.
@@ -57,6 +66,10 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Setup ViewPager2
+        ViewPager2 vpBanner = view.findViewById(R.id.vpBanner);
+        setupBannerSlideshow(vpBanner);
 
         tvGreeting = view.findViewById(R.id.tvGreeting);
 
@@ -94,22 +107,8 @@ public class HomeFragment extends Fragment {
         llDepartureDate.setOnClickListener(v -> showDatePicker(tvDepartureDate, true));
         llReturnDate   .setOnClickListener(v -> showDatePicker(tvReturnDate,    false));
 
-        TextView btnTravellerMinus = view.findViewById(R.id.btnTravellerMinus);
-        TextView btnTravellerPlus  = view.findViewById(R.id.btnTravellerPlus);
-
-        btnTravellerMinus.setOnClickListener(v -> {
-            if (travellerCount > 1) {
-                travellerCount--;
-                tvTravellers.setText(travellerCount + (travellerCount == 1 ? " Adult" : " Adults"));
-            }
-        });
-
-        btnTravellerPlus.setOnClickListener(v -> {
-            if (travellerCount < 6) {
-                travellerCount++;
-                tvTravellers.setText(travellerCount + (travellerCount == 1 ? " Adult" : " Adults"));
-            }
-        });
+        LinearLayout llTraveller = view.findViewById(R.id.llTraveller);
+        llTraveller.setOnClickListener(v -> showTravellerBottomSheet());
 
         Button btnFindFlights = view.findViewById(R.id.btnFindFlights);
         btnFindFlights.setOnClickListener(v -> {
@@ -117,6 +116,12 @@ public class HomeFragment extends Fragment {
             String toText   = tvToCity  .getText().toString();
             String dateText      = tvDepartureDate.getText().toString();
             String travellersText = tvTravellers  .getText().toString();
+
+            if (fromText.equals("Select Origin") || toText.equals("Select Destination") ||
+                dateText.equals("Select Date") || travellersText.equals("Select Travellers")) {
+                android.widget.Toast.makeText(getActivity(), "Please select all required fields", android.widget.Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             String fromIata = fromText;
             String toIata   = toText;
@@ -133,6 +138,9 @@ public class HomeFragment extends Fragment {
             intent.putExtra("DATE",         departureDateIso != null ? departureDateIso : "");
             intent.putExtra("DATE_DISPLAY",  dateText);
             intent.putExtra("TRAVELLERS", travellersText);
+            intent.putExtra("ADULT_COUNT", adultCount);
+            intent.putExtra("CHILD_COUNT", childCount);
+            intent.putExtra("INFANT_COUNT", infantCount);
             startActivity(intent);
         });
 
@@ -226,6 +234,108 @@ public class HomeFragment extends Fragment {
                         returnDateIso = isoDate;
                     }
                 }, year, month, day);
+        dialog.show();
+    }
+
+    private Handler sliderHandler = new Handler(Looper.getMainLooper());
+    private Runnable sliderRunnable = null;
+
+    private void setupBannerSlideshow(ViewPager2 vpBanner) {
+        List<BannerAdapter.BannerItem> items = new ArrayList<>();
+        // Keep existing image
+        items.add(new BannerAdapter.BannerItem(R.drawable.bg_travel_banner, "All You Need to Know About Travel During the Pandemic"));
+        // New images
+        items.add(new BannerAdapter.BannerItem(R.drawable.bg_planning_holiday, "Plan your perfect getaway with ease"));
+        items.add(new BannerAdapter.BannerItem(R.drawable.bg_visa_planning, "Get your travel documents ready, stress-free"));
+        items.add(new BannerAdapter.BannerItem(R.drawable.bg_flight_safety, "Your safety is our top priority, always"));
+
+        BannerAdapter adapter = new BannerAdapter(items);
+        vpBanner.setAdapter(adapter);
+
+        // Start in the middle to allow scrolling left immediately
+        vpBanner.setCurrentItem(1000 * items.size(), false);
+
+        sliderRunnable = new Runnable() {
+            @Override
+            public void run() {
+                vpBanner.setCurrentItem(vpBanner.getCurrentItem() + 1, true);
+                sliderHandler.postDelayed(sliderRunnable, 3500);
+            }
+        };
+
+        vpBanner.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                sliderHandler.removeCallbacks(sliderRunnable);
+                sliderHandler.postDelayed(sliderRunnable, 3500);
+            }
+        });
+    }
+
+    private void showTravellerBottomSheet() {
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        View sheetView = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_travellers, null);
+        dialog.setContentView(sheetView);
+
+        ImageView btnAdultMinus = sheetView.findViewById(R.id.btnAdultMinus);
+        ImageView btnAdultPlus = sheetView.findViewById(R.id.btnAdultPlus);
+        TextView tvAdultCount = sheetView.findViewById(R.id.tvAdultCount);
+
+        ImageView btnChildMinus = sheetView.findViewById(R.id.btnChildMinus);
+        ImageView btnChildPlus = sheetView.findViewById(R.id.btnChildPlus);
+        TextView tvChildCount = sheetView.findViewById(R.id.tvChildCount);
+
+        ImageView btnInfantMinus = sheetView.findViewById(R.id.btnInfantMinus);
+        ImageView btnInfantPlus = sheetView.findViewById(R.id.btnInfantPlus);
+        TextView tvInfantCount = sheetView.findViewById(R.id.tvInfantCount);
+
+        Button btnConfirm = sheetView.findViewById(R.id.btnConfirmTravellers);
+
+        int[] counts = new int[]{adultCount, childCount, infantCount};
+
+        Runnable updateUi = () -> {
+            tvAdultCount.setText(String.valueOf(counts[0]));
+            tvChildCount.setText(String.valueOf(counts[1]));
+            tvInfantCount.setText(String.valueOf(counts[2]));
+
+            int total = counts[0] + counts[1] + counts[2];
+
+            btnAdultMinus.setAlpha(counts[0] <= 1 ? 0.5f : 1.0f);
+            btnAdultMinus.setEnabled(counts[0] > 1);
+            btnAdultPlus.setAlpha(total >= 6 ? 0.5f : 1.0f);
+            btnAdultPlus.setEnabled(total < 6);
+
+            btnChildMinus.setAlpha(counts[1] <= 0 ? 0.5f : 1.0f);
+            btnChildMinus.setEnabled(counts[1] > 0);
+            btnChildPlus.setAlpha(total >= 6 ? 0.5f : 1.0f);
+            btnChildPlus.setEnabled(total < 6);
+
+            btnInfantMinus.setAlpha(counts[2] <= 0 ? 0.5f : 1.0f);
+            btnInfantMinus.setEnabled(counts[2] > 0);
+            btnInfantPlus.setAlpha(total >= 6 ? 0.5f : 1.0f);
+            btnInfantPlus.setEnabled(total < 6);
+        };
+        updateUi.run();
+
+        btnAdultMinus.setOnClickListener(v -> { if (counts[0] > 1) { counts[0]--; updateUi.run(); } });
+        btnAdultPlus.setOnClickListener(v -> { if (counts[0] + counts[1] + counts[2] < 6) { counts[0]++; updateUi.run(); } });
+
+        btnChildMinus.setOnClickListener(v -> { if (counts[1] > 0) { counts[1]--; updateUi.run(); } });
+        btnChildPlus.setOnClickListener(v -> { if (counts[0] + counts[1] + counts[2] < 6) { counts[1]++; updateUi.run(); } });
+
+        btnInfantMinus.setOnClickListener(v -> { if (counts[2] > 0) { counts[2]--; updateUi.run(); } });
+        btnInfantPlus.setOnClickListener(v -> { if (counts[0] + counts[1] + counts[2] < 6) { counts[2]++; updateUi.run(); } });
+
+        btnConfirm.setOnClickListener(v -> {
+            adultCount = counts[0];
+            childCount = counts[1];
+            infantCount = counts[2];
+            int totalCount = adultCount + childCount + infantCount;
+            tvTravellers.setText(totalCount + (totalCount == 1 ? " Traveller" : " Travellers"));
+            dialog.dismiss();
+        });
+
         dialog.show();
     }
 }

@@ -12,11 +12,14 @@ public class Flight {
     private String flight_number;
     private String departure_date;
     private int    seats_available;
+    private long   departureTimeMillis;
+    private long   arrivalTimeMillis;
 
     public Flight(String airline, String airline_name, String source, String destination,
                   String departure_time, String arrival_time,
                   String duration, String price, String flight_number,
-                  String departure_date, int seats_available) {
+                  String departure_date, int seats_available,
+                  long departureTimeMillis, long arrivalTimeMillis) {
         this.airline          = airline;
         this.airline_name     = airline_name;
         this.source           = source;
@@ -28,6 +31,8 @@ public class Flight {
         this.flight_number    = flight_number;
         this.departure_date   = departure_date;
         this.seats_available  = seats_available;
+        this.departureTimeMillis = departureTimeMillis;
+        this.arrivalTimeMillis   = arrivalTimeMillis;
     }
 
     public String getAirline()          { return airline; }
@@ -41,4 +46,6 @@ public class Flight {
     public String getFlight_number()    { return flight_number; }
     public String getDeparture_date()   { return departure_date; }
     public int    getSeats_available()  { return seats_available; }
+    public long   getDepartureTimeMillis() { return departureTimeMillis; }
+    public long   getArrivalTimeMillis()   { return arrivalTimeMillis; }
 }

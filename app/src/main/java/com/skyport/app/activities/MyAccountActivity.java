@@ -38,16 +38,11 @@ public class MyAccountActivity extends AppCompatActivity {
 
         // ── My Activity rows ──────────────────────────────────────────────
         setupRow(R.id.rowNotifications,  R.drawable.ic_notification, "View Notifications",      null);
-        setupRow(R.id.rowFlightDetails,  R.drawable.ic_plane,        "View Flight Details",      null);
         setupRow(R.id.rowTransactions,   R.drawable.ic_nav_doc,      "View Transaction History", null);
-        setupRow(R.id.rowPaymentMethods, R.drawable.ic_nav_suitcase, "Payment Methods",          null);
-
-        // ── Preferences ───────────────────────────────────────────────────
-        setupRow(R.id.rowCurrency, R.drawable.ic_nav_shop,     "Currency", null);
-        setupRow(R.id.rowSettings, R.drawable.ic_notification, "Settings",  null);
+        setupRow(R.id.rowPaymentMethods, R.drawable.ic_nav_suitcase, "Payment Methods",          () -> startActivity(new Intent(this, PaymentMethodsActivity.class)));
 
         // ── Other Information ─────────────────────────────────────────────
-        setupRow(R.id.rowHelp,   R.drawable.ic_nav_doc,  "Help",     null);
+        setupRow(R.id.rowHelp,   R.drawable.ic_nav_doc,  "Help",     () -> startActivity(new Intent(this, HelpActivity.class)));
         setupRow(R.id.rowLogout, R.drawable.ic_nav_home, "Log out",  this::performLogout);
 
         loadUserData();

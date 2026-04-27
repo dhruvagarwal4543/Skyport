@@ -13,9 +13,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.skyport.app.viewmodels.AuthViewModel;
 import com.skyport.app.models.SessionManager;
 import com.skyport.app.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -119,8 +128,9 @@ public class SignupActivity extends AppCompatActivity {
                                                     .set(userMap)
                                                     .addOnSuccessListener(aVoid -> {
                                                         if (progressBarAuth != null) progressBarAuth.setVisibility(View.GONE);
-                                                        Intent intent = new Intent(SignupActivity.this, CompleteProfileActivity.class);
+                                                        Intent intent = new Intent(SignupActivity.this, HomeActivity.class);
                                                         intent.putExtra("PREFILL_NAME", name);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                         startActivity(intent);
                                                         finish();
                                                     });
@@ -203,18 +213,57 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void performSignup() {
-        // Sync fields with ViewModel
-        viewModel.getFirstName().setValue(etFirstName.getText().toString());
-        viewModel.getLastName().setValue(etLastName.getText().toString());
-        viewModel.getEmail().setValue(etEmail.getText().toString());
-        viewModel.getPhone().setValue(etPhone.getText().toString());
-        viewModel.getPassword().setValue(etPassword.getText().toString());
-        viewModel.getConfirmPassword().setValue(etConfirmPassword.getText().toString());
-        viewModel.getCountry().setValue(etCountry.getText().toString());
-        viewModel.getNationality().setValue(etNationality.getText().toString());
-        viewModel.getPassport().setValue(etPassport.getText().toString());
+        String firstName = etFirstName.getText().toString().trim();
+        String lastName  = etLastName.getText().toString().trim();
+        String email     = etEmail.getText().toString().trim();
+        String phone     = etPhone.getText().toString().trim();
+        String password  = etPassword.getText().toString();
+        String fullName  = firstName + " " + lastName;
 
-        viewModel.signup();
+        FirebaseAuth.getInstance()
+                .createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener(authResult -> {
+                    FirebaseUser user = authResult.getUser();
+                    if (user == null) return;
+
+                    // Update Firebase Auth display name
+                    UserProfileChangeRequest profileUpdate =
+                            new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(fullName)
+                                    .build();
+                    user.updateProfile(profileUpdate);
+
+                    // Save to Firestore users/{uid}
+                    Map<String, Object> userData = new HashMap<>();
+                    userData.put("uid",   user.getUid());
+                    userData.put("name",  fullName);
+                    userData.put("email", email);
+                    userData.put("phone", phone);
+
+                    FirebaseFirestore.getInstance()
+                            .collection("users")
+                            .document(user.getUid())
+                            .set(userData, SetOptions.merge())
+                            .addOnSuccessListener(unused -> {
+                                Toast.makeText(this, "Account created successfully!", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(this, HomeActivity.class);
+                                intent.putExtra("USER_NAME", firstName);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            })
+                            .addOnFailureListener(e -> {
+                                // Firestore failed but auth succeeded — still navigate home
+                                Toast.makeText(this, "Account created!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(this, HomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Sign Up failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
     }
 
     private void observeViewModel() {

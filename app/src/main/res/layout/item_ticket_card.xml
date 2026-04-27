@@ -7,13 +7,55 @@
     android:layout_marginBottom="12dp"
     app:cardCornerRadius="14dp"
     app:cardElevation="3dp"
-    app:cardBackgroundColor="@color/white">
+    app:cardBackgroundColor="@color/white"
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
+
+        <!-- Airline Header Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                android:id="@+id/ivAirlineLogo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_plane"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/tvAirlineName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Airline"
+                android:textColor="@color/skyport_navy"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvFlightNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FL-123"
+                android:textColor="@color/skyport_label_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/skyport_field_line" />
 
         <!-- FROM → TO header row -->
         <LinearLayout
@@ -43,7 +85,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_plane"
-                android:tint="@color/skyport_navy" />
+                app:tint="@color/skyport_navy" />
 
             <View
                 android:layout_width="0dp"
@@ -78,7 +120,7 @@
                     android:id="@+id/tvFromCity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Delhi (DEL)"
+                    android:text="DEL"
                     android:textColor="@color/skyport_navy"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -87,19 +129,37 @@
                     android:id="@+id/tvFromTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="18:55 Tue, 17 Mar"
+                    android:text="18:55"
                     android:textColor="@color/skyport_text_secondary"
-                    android:textSize="12sp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     android:layout_marginTop="3dp" />
 
                 <TextView
-                    android:id="@+id/tvFromTerminal"
+                    android:id="@+id/tvFromDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Terminal 3"
+                    android:text="Tue, 17 Mar"
                     android:textColor="@color/skyport_label_gray"
                     android:textSize="11sp"
                     android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <!-- Duration details -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2h 15m"
+                    android:textColor="@color/skyport_label_gray"
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <!-- TO details -->
@@ -114,7 +174,7 @@
                     android:id="@+id/tvToCity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mumbai (BOM)"
+                    android:text="BOM"
                     android:textColor="@color/skyport_navy"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -123,16 +183,17 @@
                     android:id="@+id/tvToTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="21:40 Tue, 17 Mar"
+                    android:text="21:40"
                     android:textColor="@color/skyport_text_secondary"
-                    android:textSize="12sp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     android:layout_marginTop="3dp" />
 
                 <TextView
-                    android:id="@+id/tvToTerminal"
+                    android:id="@+id/tvToDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Terminal 2"
+                    android:text="Tue, 17 Mar"
                     android:textColor="@color/skyport_label_gray"
                     android:textSize="11sp"
                     android:layout_marginTop="2dp" />
